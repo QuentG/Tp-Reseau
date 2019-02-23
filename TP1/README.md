@@ -288,7 +288,7 @@ ___
     ```
     [quentin@localhost ~]$ ss -unp
     Recv-Q Send-Q Local Address:Port               Peer Address:Port              
-    0      0      10.1.1.2:8888               10.1.1.3:46503               users:(("nc",pid=1512,fd=4))
+    0      0      10.1.1.2:8888               10.1.1.3:43889              users:(("nc",pid=1512,fd=4))
     ```
 
 * Sur client2 (2nd shell) : 
@@ -296,7 +296,7 @@ ___
     ```
     [quentin@client2 ~]$ ss -unp
     Recv-Q Send-Q Local Address:Port               Peer Address:Port              
-    0      0      10.1.1.3:46503              10.1.1.2:8888                users:(("nc",pid=1494,fd=3))
+    0      0      10.1.1.3:43889             10.1.1.2:8888                users:(("nc",pid=1494,fd=3))
     ```
 
 * Sur le client1 (3eme shell) : 
@@ -350,20 +350,19 @@ ___
     ```
     [quentin@localhost ~]$ ss -tnp
     State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
-    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:49868              
-    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50147              
-    ESTAB       0      0      10.1.1.2:8888               10.1.1.3:34874               users:(("nc",pid=1700,fd=5))
-    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50048 
+    ESTAB       0      0      10.1.1.2:8888               10.1.1.3:45716              users:(("nc",pid=1474,fd=5))
+    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50020              
+    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50071  
     ```
 
 * Sur client2 (2nd shell) : 
 
     ```
-    [quentin@client2 ~]$ ss -tnp
+    [quentin@localhost ~]$ ss -tnp
     State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
-    ESTAB       0      0      10.1.1.3:22                 10.1.1.1:49778              
-    ESTAB       0      0      10.1.1.3:22                 10.1.1.1:50038              
-    ESTAB       0      0      10.1.1.3:34874              10.1.1.2:8888                users:(("nc",pid=1523,fd=3))
+    ESTAB       0      0      10.1.1.3:45716             10.1.1.2:8888                users:(("nc",pid=1190,fd=3))
+    ESTAB       0      0      10.1.1.3:22                 10.1.1.1:50072              
+    ESTAB       0      0      10.1.1.3:22                 10.1.1.1:50021 
     ```
 
 * Sur client1 (3eme shell) : 
