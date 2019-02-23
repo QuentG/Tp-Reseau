@@ -478,7 +478,7 @@ ___
         2  10.1.2.1 (10.1.2.1)  0.320 ms  0.243 ms  0.464 ms
         ``` 
 
-        On voit qu'ils passent par la gateway (10.0.2.2).
+        On voit qu'ils passent par la gateway (10.0.2.2) et ensuite notre net2 10.1.2.1.
 
         
 
