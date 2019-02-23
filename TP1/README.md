@@ -1,8 +1,26 @@
 # TP 1 - Remise dans le bain !
 
 ## Sommaire
+* [I. Exploration du réseau d'une machine CentOS](#i-exploration-du-réseau-dune-machine-centos)
+    * [1. Mise en place](#1-mise-en-place)
+        * [Configuration](#configuration)
+    * [2. Basics](#2-basics)
+        * [Routes](#routes)
+        * [Table ARP](#table-arp)
+        * [Capture Reseau](#capture-reseau)
+* [II. Communication simple entre deux machines](#ii-communication-simple-entre-deux-machines)
+    * [1. Mise en place](#1-mise-en-place-1)
+    * [2. Basics](#2-basics-1)
+        * [Ping && ARP](ping-&&-arp)
+        * [UDP](udp)
+        * [TCP](tcp)
+        * [Firewall](firewall)
+* [III. Routage statique simple](#iii-routage-statique-simple)
 
-## 1.Mise en place 
+
+# I. Exploration du réseau d'une machine CentOS
+
+## 1. Mise en place 
 
 ### Configuration
 
@@ -31,7 +49,7 @@
     * `PING 10.1.2.2 (10.1.2.2) 56(84) bytes of data.
 64 bytes from 10.1.2.2: icmp_seq=1 ttl=64 time=0.035 ms`
 
-## 2.Basics
+## 2. Basics
 
 ### Routes
 
@@ -122,9 +140,9 @@
 
 * Screen du Wireshark :
 
-    [Voir ping.pcap](/pcap/ping.pcap)
+    [Voir ping.pcap](/TP1/pcap/ping.pcap)
 
-    ![alt text](/screens/ping.png "Whireshark")
+    ![alt text](/TP1/screens/ping.png "Whireshark")
 
     * La ligne **1** va être une requête ARP vers l'ip `10.1.2.1` pour lui demander son adresse MAC, vu qu'au préalable nous avions vider la table ARP.
     * La ligne **2** c'est la réponse avec l'adresse MAC.
@@ -132,7 +150,7 @@
 
 ## Communication simple entre deux machines
 
-## 1.Mise en place
+## 1. Mise en place
 
 * Nouveau clone de VM 
 
@@ -170,7 +188,7 @@
     10.1.1.3    localhost client2.tp1.b2
     ```
 
-## 2.Basics
+## 2. Basics
 
 ### Ping && ARP
 
@@ -262,7 +280,7 @@ ___
 
     ```
 
-    ![alt text](/screens/chat.png "chat")
+    ![alt text](/TP1/screens/chat.png "chat")
     _Le tchat marche bien_
 
 * Sur client1 (2nd shell) : 
@@ -291,9 +309,9 @@ ___
     0 packets dropped by kernel
     ```
 
-    [Voir nc-udp.pcap](/pcap/nc-udp.pcap)
+    [Voir nc-udp.pcap](/TP1/pcap/nc-udp.pcap)
 
-    ![alt text](/screens/nc-udp.png "nc-udp")
+    ![alt text](/TP1/screens/nc-udp.png "nc-udp")
 
     * Nous voyons des transmission de données faites entre un client et un serveur par le protocole UDP (aucun tunnel).
 
@@ -359,9 +377,9 @@ ___
     0 packets dropped by kernel
     ```
 
-    [Voir nc-tcp.pcap](/pcap/nc-tcp.pcap)
+    [Voir nc-tcp.pcap](/TP1/pcap/nc-tcp.pcap)
 
-    ![alt text](/screens/nc-tcp.png "nc-tcap")
+    ![alt text](/TP1/screens/nc-tcp.png "nc-tcap")
 
     * Ici nous avons des requêtes TCP qui passe par un tunnel cette fois-ci et nous avons un 'accusé de réception' a contrario du protocole UDP
 
@@ -406,13 +424,13 @@ ___
     0 packets dropped by kernel
     ```
 
-    [Voir firewall.pcap](/pcap/firewall.pcap)
+    [Voir firewall.pcap](/TP1/pcap/firewall.pcap)
 
-    ![alt text](/screens/firewall.png "nc-tcap")
+    ![alt text](/TP1/screens/firewall.png "nc-tcap")
 
     * La ligne **10** nous indique que la destination est inaccessible, tout simplement parce que nous avons fermer le port UDP.
 
-## 3.Routage statique simple 
+# III. Routage statique simple 
 
 * Sur client1 : 
 
