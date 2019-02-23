@@ -12,6 +12,9 @@
 * Combien y a-t-il d'adresses disponibles dans un `/30` ?
     * Il y en a 2 !
 
+* Quelle est l'utilité d'un /30 ?
+    * Vu que la nous n'avons que 2 hôtes capable de se connecter cela va nous permettre de faire des tables de routage plus simple et ceci permet aussi de ne pas gaspiller d'adresses IP.
+
 [ ] s'assurer que les 3 cartes réseaux fonctionnent :
 
 * Carte NAT : 
@@ -117,17 +120,353 @@
     0 packets dropped by kernel
     ```
 
-* Screen du Wireshark : 
+* Screen du Wireshark :
 
-    ![alt text](./whireshark.png "Whireshark")
+    [Voir ping.pcap](/pcap/ping.pcap)
+
+    ![alt text](/screens/ping.png "Whireshark")
 
     * La ligne **1** va être une requête ARP vers l'ip `10.1.2.1` pour lui demander son adresse MAC, vu qu'au préalable nous avions vider la table ARP.
-    * La ligne **2** c'est la réponse.
+    * La ligne **2** c'est la réponse avec l'adresse MAC.
     * De la ligne **3 à 10** ce sont des requêtes `ping 'pong'`.
 
 ## Communication simple entre deux machines
 
-### 1.Mise en place
+## 1.Mise en place
+
+* Nouveau clone de VM 
+
+    * Configuration d'une nouvelle ip statique
+    ```
+    [quentin@client2 ~]$ cat /etc/sysconfig/network-scripts/ifcfg-enp0s8
+    TYPE=Ethernet
+    BOOTPROTO=static
+
+    NAME=enp0s8
+    DEVICE=enp0s8
+
+    ONBOOT=yes
+
+    IPADDR=10.1.1.3
+    NETMASK=255.255.255.0
+    ```
+
+    * Changement du nom de domaine : 
+    ```
+    sudo hostname client2.tp1.b2
+    ```
+
+    * Edition du fichier hosts de client2 :
+    ```
+    [quentin@client2 ~]$ cat /etc/hosts
+    127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+    ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+    10.1.1.3    localhost client2.tp1.b2
+    ```
+
+## 2.Basics
+
+### Ping && ARP
+
+* Vider les tables ARP des deux machines (#LaClassique):
+
+    ```
+    sudo ip neigh flush all
+    ```
+
+* On va ping **client2** depuis **client1** :
+
+    ```
+    ping -c 4 client2 (10.1.1.3)
+    ```
+    * Ensuite on va aller check la table ARP : 
+
+        ```
+        quentin@localhost ~]$ ip neigh show
+        10.1.1.1 dev enp0s8 lladdr 0a:00:27:00:00:06 REACHABLE
+        10.1.1.3 dev enp0s8 lladdr 08:00:27:26:2e:dc REACHABLE
+        ```
+        _10.1.1.3 vient de s'ajouter !_
+
+* On va refaire la même opération en faisant une capture réseau : 
+
+    * Sur SSH1 client1 :
+
+        ```
+        sudo tcpdump -i enp0s8 -w ping-2.pcap
+        ```
+
+     * Sur SSH2 client1 :
+
+        ```
+        ping -c 4 10.1.1.3
+        ```
+
+    * Sur SSH1 client1 : 
+
+        ```
+        ^C10 packets captured
+        10 packets received by filter
+        0 packets dropped by kernel
+        ```
+
+    * On récupère le fichier ping-2.pcap
+
+        ```
+        scp quentin@10.1.1.2:/home/quentin/ping-2.pcap ~/Desktop
+        ```
+
+* On passe le fichier dans Wireshark : 
+
+    [Voir ping-2.pcap](/pcap/ping-2.pcap)
+
+    ![alt text](/screens/ping-2.png "Whireshark2")
+
+    * La ligne **1** va être une requête ARP vers l'ip `10.1.2.1` pour lui demander son adresse MAC, vu qu'au préalable nous avions vider la table ARP.
+    * La ligne **2** c'est la réponse avec l'adresse MAC.
+    * De la ligne **3 à 10** ce sont des requêtes `ping 'pong'`. 😎
+
+### UDP
+
+* Sur client1 :
+
+    * Ouverture du port 8888 : 
+
+        ```
+        [quentin@localhost ~]$ sudo firewall-cmd --add-port=8888/udp --permanent
+        [sudo] password for quentin:
+        success
+
+        [quentin@localhost ~]$ sudo firewall-cmd --reload
+        success
+        ```
+
+    * On lance netcat pour qu'il écoute sur le port UDP 8888 : 
+
+        ```
+        [quentin@localhost ~]$ nc -u -l 8888
+
+        ```
+
+* Sur client2 : 
+
+    ```
+    [quentin@client2 ~]$ nc -u 10.1.1.2 8888
+
+    ```
+
+    ![alt text](/screens/chat.png "chat")
+    _Le tchat marche bien_
+
+* Sur client1 (2nd shell) : 
+
+    ```
+    [quentin@localhost ~]$ ss -unp
+    Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+    0      0      10.1.1.2:8888               10.1.1.3:46503               users:(("nc",pid=1512,fd=4))
+    ```
+
+* Sur client2 (2nd shell) : 
+
+    ```
+    [quentin@client2 ~]$ ss -unp
+    Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+    0      0      10.1.1.3:46503              10.1.1.2:8888                users:(("nc",pid=1494,fd=3))
+    ```
+
+* Sur le client1 (3eme shell) : 
+
+    ```
+    [quentin@localhost ~]$ sudo tcpdump -i enp0s8 -w nc-udp.pcap
+    tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+    ^C39 packets captured
+    41 packets received by filter
+    0 packets dropped by kernel
+    ```
+
+    [Voir nc-udp.pcap](/pcap/nc-udp.pcap)
+
+    ![alt text](/screens/nc-udp.png "nc-udp")
+
+    * Nous voyons des transmission de données faites entre un client et un serveur par le protocole UDP (aucun tunnel).
+
+### TCP 
+
+* Sur client1 :
+
+    * Ouverture du port 8888 : 
+
+        ```
+        [quentin@localhost ~]$ sudo firewall-cmd --add-port=8888/tcp --permanent
+        [sudo] password for quentin:
+        success
+
+        [quentin@localhost ~]$ sudo firewall-cmd --reload
+        success
+        ```
+
+    * On lance netcat pour qu'il écoute sur le port TCP 8888 : 
+
+        ```
+        [quentin@localhost ~]$ nc -l 8888
+
+        ```
+
+* Sur client2 : 
+
+    ```
+    [quentin@client2 ~]$ nc 10.1.1.2 8888
+
+    ```
+
+* Sur client1 (2nd shell) : 
+
+    ```
+    [quentin@localhost ~]$ ss -tnp
+    State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:49868              
+    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50147              
+    ESTAB       0      0      10.1.1.2:8888               10.1.1.3:34874               users:(("nc",pid=1700,fd=5))
+    ESTAB       0      0      10.1.1.2:22                 10.1.1.1:50048 
+    ```
+
+* Sur client2 (2nd shell) : 
+
+    ```
+    [quentin@client2 ~]$ ss -tnp
+    State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
+    ESTAB       0      0      10.1.1.3:22                 10.1.1.1:49778              
+    ESTAB       0      0      10.1.1.3:22                 10.1.1.1:50038              
+    ESTAB       0      0      10.1.1.3:34874              10.1.1.2:8888                users:(("nc",pid=1523,fd=3))
+    ```
+
+* Sur client1 (3eme shell) : 
+
+    ```
+    [quentin@localhost ~]$ sudo tcpdump -i enp0s8 -w nc-tcp.pcap
+    [sudo] Mot de passe de quentin : 
+    tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+    ^C49 packets captured
+    51 packets received by filter
+    0 packets dropped by kernel
+    ```
+
+    [Voir nc-tcp.pcap](/pcap/nc-tcp.pcap)
+
+    ![alt text](/screens/nc-tcp.png "nc-tcap")
+
+    * Ici nous avons des requêtes TCP qui passe par un tunnel cette fois-ci et nous avons un 'accusé de réception' a contrario du protocole UDP
+
+### Firewall
+
+* Sur client1 :
+
+    * Fermeture du port 8888 UDP : 
+
+        ```
+        [quentin@localhost ~]$ sudo firewall-cmd --remove-port=8888/udp --permanent
+        [sudo] password for quentin:
+        success
+
+        [quentin@localhost ~]$ sudo firewall-cmd --reload
+        success
+        ```
+
+    * On lance netcat pour qu'il écoute sur le port TCP 8888 : 
+
+        ```
+        [quentin@localhost ~]$ nc -u -l 8888
+
+        ```
+
+* Sur client2 : 
+
+    ```
+    [quentin@client2 ~]$ nc -u 10.1.1.2 8888
+
+    ```
+
+* Sur client1 (2nd shell) : 
+
+    ```
+    [quentin@localhost ~]$ sudo tcpdump -i enp0s8 -w firewall.pcap
+    [sudo] Mot de passe de quentin : 
+    tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
+    ^C10 packets captured
+    10 packets received by filter
+    0 packets dropped by kernel
+    ```
+
+    [Voir firewall.pcap](/pcap/firewall.pcap)
+
+    ![alt text](/screens/firewall.png "nc-tcap")
+
+    * La ligne **10** nous indique que la destination est inaccessible, tout simplement parce que nous avons fermer le port UDP.
+
+## Routage statique simple 
+
+* Sur client1 : 
+
+    * Transformation de notre machine en routeur
+
+        ```
+        [quentin@localhost ~]$ sudo sysctl -w net.ipv4.ip_forward=1
+        [sudo] Mot de passe de quentin : 
+        net.ipv4.ip_forward = 1
+        ```
+
+* Sur client2 : 
+
+    * Ajout d'une route statique sur net2 :
+
+        ```
+        [quentin@client2 ~]$ sudo vi /etc/sysconfig/network-scripts/route-enp0s9
+        ```
+
+        ```
+        10.1.2.0/30 via 10.1.1.2 dev enp0s9
+        ```
+
+        _Route statique permanente_
+
+    * Maintenant nous allons essayer de ping l'ip de l'hôte dans net2 : 
+
+        ```
+        [quentin@client2 ~]$ ping 10.1.2.1
+        PING 10.1.2.1 (10.1.2.1) 56(84) bytes of data.
+        64 bytes from 10.1.2.1: icmp_seq=1 ttl=63 time=0.595 ms
+        64 bytes from 10.1.2.1: icmp_seq=2 ttl=63 time=0.328 ms
+        ^C
+        --- 10.1.2.1 ping statistics ---
+        2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+        rtt min/avg/max/mdev = 0.328/0.461/0.595/0.135 ms
+        ```
+
+    * Nous allons voir le chemin parcouru par nos paquets : 
+
+        ```
+        [quentin@client2 ~]$ traceroute 10.1.2.1
+        traceroute to 10.1.2.1 (10.1.2.1), 30 hops max, 60 byte packets
+        1  gateway (10.0.2.2)  0.227 ms  0.205 ms  0.122 ms
+        2  10.1.2.1 (10.1.2.1)  0.320 ms  0.243 ms  0.464 ms
+        ``` 
+
+        On voit qu'ils passent par la gateway (10.0.2.2).
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
