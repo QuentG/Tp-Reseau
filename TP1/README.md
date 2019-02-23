@@ -224,9 +224,9 @@
 
 * On passe le fichier dans Wireshark : 
 
-    [Voir ping-2.pcap](/pcap/ping-2.pcap)
+    [Voir ping-2.pcap](/TP1/pcap/ping-2.pcap)
 
-    ![alt text](/screens/ping-2.png "Whireshark2")
+    ![alt text](/TP1/screens/ping-2.png "Whireshark2")
 
     * La ligne **1** va être une requête ARP vers l'ip `10.1.2.1` pour lui demander son adresse MAC, vu qu'au préalable nous avions vider la table ARP.
     * La ligne **2** c'est la réponse avec l'adresse MAC.
