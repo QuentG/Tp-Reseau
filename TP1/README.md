@@ -151,6 +151,12 @@
     NETMASK=255.255.255.0
     ```
 
+    * On valide
+        ```
+        ifdown enp0s8
+        ifup enp0s8
+        ```
+
     * Changement du nom de domaine : 
     ```
     sudo hostname client2.tp1.b2
@@ -226,6 +232,7 @@
     * La ligne **2** c'est la réponse avec l'adresse MAC.
     * De la ligne **3 à 10** ce sont des requêtes `ping 'pong'`. 😎
 
+___
 ### UDP
 
 * Sur client1 :
@@ -290,6 +297,7 @@
 
     * Nous voyons des transmission de données faites entre un client et un serveur par le protocole UDP (aucun tunnel).
 
+___
 ### TCP 
 
 * Sur client1 :
@@ -357,6 +365,7 @@
 
     * Ici nous avons des requêtes TCP qui passe par un tunnel cette fois-ci et nous avons un 'accusé de réception' a contrario du protocole UDP
 
+___
 ### Firewall
 
 * Sur client1 :
