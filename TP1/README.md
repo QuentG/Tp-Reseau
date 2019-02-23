@@ -412,7 +412,7 @@ ___
 
     * La ligne **10** nous indique que la destination est inaccessible, tout simplement parce que nous avons fermer le port UDP.
 
-## Routage statique simple 
+## 3.Routage statique simple 
 
 * Sur client1 : 
 
