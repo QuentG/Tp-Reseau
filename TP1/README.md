@@ -304,8 +304,8 @@ ___
     ```
     [quentin@localhost ~]$ sudo tcpdump -i enp0s8 -w nc-udp.pcap
     tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
-    ^C39 packets captured
-    41 packets received by filter
+    ^C15 packets captured
+    15 packets received by filter
     0 packets dropped by kernel
     ```
 
@@ -372,8 +372,8 @@ ___
     [quentin@localhost ~]$ sudo tcpdump -i enp0s8 -w nc-tcp.pcap
     [sudo] Mot de passe de quentin : 
     tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), capture size 262144 bytes
-    ^C49 packets captured
-    51 packets received by filter
+    ^C15 packets captured
+    15 packets received by filter
     0 packets dropped by kernel
     ```
 
