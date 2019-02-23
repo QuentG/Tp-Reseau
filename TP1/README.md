@@ -11,10 +11,10 @@
 * [II. Communication simple entre deux machines](#ii-communication-simple-entre-deux-machines)
     * [1. Mise en place](#1-mise-en-place-1)
     * [2. Basics](#2-basics-1)
-        * [Ping && ARP](ping-&&-arp)
-        * [UDP](udp)
-        * [TCP](tcp)
-        * [Firewall](firewall)
+        * [Ping && ARP](#ping-&&-arp)
+        * [UDP](#udp)
+        * [TCP](#tcp)
+        * [Firewall](#firewall)
 * [III. Routage statique simple](#iii-routage-statique-simple)
 
 
