@@ -358,7 +358,7 @@ ___
 * Sur client2 (2nd shell) : 
 
     ```
-    [quentin@localhost ~]$ ss -tnp
+    [quentin@client2 ~]$ ss -tnp
     State       Recv-Q Send-Q Local Address:Port               Peer Address:Port              
     ESTAB       0      0      10.1.1.3:45716             10.1.1.2:8888                users:(("nc",pid=1190,fd=3))
     ESTAB       0      0      10.1.1.3:22                 10.1.1.1:50072              
