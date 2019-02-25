@@ -158,6 +158,14 @@ _Exemple pour client1_
 
     Maintenant quand l'on double clique sur la première tram par exemple de chacune des captures nous voyons que nous n'avons pas les mêmes adresses MAC.
 
+* Trame net12 :
+
+    ![alt text](/TP2/screens/net12_trame.png)
+
+* Trame net2 :
+
+    ![alt text](/TP2/screens/net2_trame.png)
+
     Les MAC ne sont pas les mêmes à l'entrée, le routeur s'est occupé de changer les MAC source et destination (IPv4_forwarding) ✅
 
 # II. NAT et services d'infra
@@ -207,7 +215,13 @@ _Exemple pour client1_
     success
     ```
 
+* Ajout d'une route par défaut sur router2 : 
+
+    ```
     
+    ```
+
+
 
 ## 2. DHCP server
 
