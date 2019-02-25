@@ -68,7 +68,7 @@ _Exemple pour client1_
 
 - Activation de l'IPv4 forwarding #OnTransformeEnRouteur
 
-    * Sur routeur1 && routeur2 :
+    * Sur router1 && router2 :
 
         ```
         [quentin@router1 ~]$ sudo sysctl -w net.ipv4.conf.all.forwarding=1
@@ -77,7 +77,7 @@ _Exemple pour client1_
         ```
 
 - Ajout de routes statiques
-    * Sur routeur1 : 
+    * Sur router1 : 
 
         ```
         [quentin@router1 network-scripts]$ cat route-enp0s9 
@@ -90,7 +90,7 @@ _Exemple pour client1_
         10.2.12.0/29 dev enp0s9 proto kernel scope link src 10.2.12.2 metric 100 
         ```
 
-     * Sur routeur2 : 
+     * Sur router2 : 
     
         ```
         [quentin@router2 ~]$ cat /etc/sysconfig/network-scripts/route-enp0s9 
