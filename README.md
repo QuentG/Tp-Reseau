@@ -1,4 +1,4 @@
-# Tp-Reseau - Gans Quentin
+# Tp-Reseau - Gans Quentin & Paris Axel
 
 Rendering of the various TP of the network course
 
