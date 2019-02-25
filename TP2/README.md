@@ -80,25 +80,66 @@ _Exemple pour client1_
     * Sur routeur1 : 
 
         ```
+        [quentin@router1 network-scripts]$ cat route-enp0s9 
+        10.2.2.0/24 via 10.2.12.3 dev enp0s9
 
+        [quentin@router1 ~]$ ip route show
+        default via 10.0.2.2 dev enp0s3 proto static metric 100 
+        10.0.2.0/24 dev enp0s3 proto kernel scope link src 10.0.2.15 metric 100 
+        10.2.2.0/24 via 10.2.12.3 dev enp0s9 proto static metric 100 
+        10.2.12.0/29 dev enp0s9 proto kernel scope link src 10.2.12.2 metric 100 
         ```
 
      * Sur routeur2 : 
     
         ```
+        [quentin@router2 ~]$ cat /etc/sysconfig/network-scripts/route-enp0s9 
+        10.2.1.0/24 via 10.2.12.2 dev enp0s9
 
+        [quentin@router2 ~]$ ip r s 
+        10.2.1.0/24 via 10.2.12.2 dev enp0s9 proto static metric 100 
+        10.2.2.0/24 dev enp0s8 proto kernel scope link src 10.2.2.254 metric 100 
+        10.2.12.0/29 dev enp0s9 proto kernel scope link src 10.2.12.3 metric 100
         ```
     
      * Sur client1 : 
     
         ```
+        [quentin@client1 network-scripts]$ cat route-enp0s8 
+        10.2.2.0/24 via 10.2.1.254 dev enp0s8
+        ```
+     * On test le ping de server1 depuis client1 :
 
+        ```
+        [quentin@client1 network-scripts]$ ping server1
+        PING server1 (10.2.2.10) 56(84) bytes of data.
+        64 bytes from server1 (10.2.2.10): icmp_seq=1 ttl=62 time=1.69 ms
+        64 bytes from server1 (10.2.2.10): icmp_seq=2 ttl=62 time=1.31 ms
+        64 bytes from server1 (10.2.2.10): icmp_seq=3 ttl=62 time=0.882 ms
+        ^C
+        --- server1 ping statistics ---
+        3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+        rtt min/avg/max/mdev = 0.882/1.298/1.695/0.333 ms
         ```
 
      * Sur server1 : 
     
         ```
+        [quentin@server1 network-scripts]$ cat route-enp0s8 
+        10.2.1.0/24 via 10.2.2.254 dev enp0s8
+        ```
 
+     * On test le ping de client1 depuis server1 :
+
+        ```
+        [quentin@server1 network-scripts]$ ping client1
+        PING client1 (10.2.1.10) 56(84) bytes of data.
+        64 bytes from client1 (10.2.1.10): icmp_seq=1 ttl=62 time=1.21 ms
+        64 bytes from client1 (10.2.1.10): icmp_seq=2 ttl=62 time=1.90 ms
+        ^C
+        --- client1 ping statistics ---
+        2 packets transmitted, 2 received, 0% packet loss, time 1004ms
+        rtt min/avg/max/mdev = 1.216/1.561/1.907/0.347 ms
         ```
 
 ## 3. Visualisation du routage avec Whireshark
