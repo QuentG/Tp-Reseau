@@ -152,15 +152,62 @@ _Exemple pour client1_
 
 * Capture sur net2 : 
 
-    [Voir net12.pcap](/TP2/pcap/net2.pcap)
+    [Voir net2.pcap](/TP2/pcap/net2.pcap)
 
     ![alt text](/TP2/screens/net2.png)
 
+    Maintenant quand l'on double clique sur la première tram par exemple de chacune des captures nous voyons que nous n'avons pas les mêmes adresses MAC.
+
+    Les MAC ne sont pas les mêmes à l'entrée, le routeur s'est occupé de changer les MAC source et destination (IPv4_forwarding) ✅
+
 # II. NAT et services d'infra
 
-
-
 ## 1. Mise en place du NAT
+
+* Tout d'abord nous vérifions si router1 à accès à internet : 
+
+    ```
+    [quentin@router1 ~]$ ping 8.8.8.8
+    PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+    64 bytes from 8.8.8.8: icmp_seq=1 ttl=63 time=19.7 ms
+    64 bytes from 8.8.8.8: icmp_seq=2 ttl=63 time=45.1 ms
+    64 bytes from 8.8.8.8: icmp_seq=3 ttl=63 time=19.4 ms
+    ^C
+    --- 8.8.8.8 ping statistics ---
+    3 packets transmitted, 3 received, 0% packet loss, time 2005ms
+    rtt min/avg/max/mdev = 19.403/28.097/45.160/12.066 ms
+    ```
+    _Le ping passe bien, router1 a accès à internet_
+
+* Utilisation des zones du Firewall CentOS
+    * L'on met l'interface NAT / net1 en **ZONE=public** : 
+
+        ```
+        [quentin@router1 network-scripts]$ cat ifcfg-enp0s3 | grep 'ZONE'
+        ZONE=public
+
+        [quentin@router1 network-scripts]$ cat ifcfg-enp0s8 | grep 'ZONE'
+        ZONE=public
+        ```
+
+    * Et l'interface net12 en **ZONE=internal**: 
+
+        ```
+        [quentin@router1 network-scripts]$ cat ifcfg-enp0s9 | grep 'ZONE'
+        ZONE=internal
+        ```
+
+* Activation de la NAT dans la zone public :
+
+    ``` 
+    [quentin@router1 network-scripts]$ sudo firewall-cmd --add-masquerade --zone=public --permanent
+    [sudo] Mot de passe de quentin : 
+    success
+    [quentin@router1 network-scripts]$ sudo firewall-cmd --reload
+    success
+    ```
+
+    
 
 ## 2. DHCP server
 
