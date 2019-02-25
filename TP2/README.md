@@ -144,7 +144,21 @@ _Exemple pour client1_
 
 ## 3. Visualisation du routage avec Whireshark
 
+* Capture sur net12 : 
+
+    [Voir net12.pcap](/TP2/pcap/net12.pcap)
+
+    ![alt text](/TP2/screens/net12.png)
+
+* Capture sur net2 : 
+
+    [Voir net12.pcap](/TP2/pcap/net2.pcap)
+
+    ![alt text](/TP2/screens/net2.png)
+
 # II. NAT et services d'infra
+
+
 
 ## 1. Mise en place du NAT
 
