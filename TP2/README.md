@@ -467,7 +467,7 @@ Sur server1 nous n'avons pas internet donc nous allons ajouter l'accès à inter
     LISTEN      0      100    127.0.0.1:25                   *:*                   users:(("master",pid=1040,fd=13))
     ```
 
-* On va accédee depuis un client au server web avec un **curl** :  
+* On va accéder depuis un client au server web avec un **curl** :  
 
     ```
     [quentin@dhcp-server ~]$ curl 10.2.2.10
@@ -480,7 +480,7 @@ Sur server1 nous n'avons pas internet donc nous allons ajouter l'accès à inter
         </head>
 
         <body>
-            <h1>C'est le fin du <strong>TP</strong> <3 !</h1>
+            <h1>C'est la fin du <strong>TP</strong> <3 !</h1>
 
         </body>
     </html>
