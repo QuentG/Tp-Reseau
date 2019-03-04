@@ -275,7 +275,142 @@ _Exemple pour client1_
     }
     ```
 
+    * option domain-name = définition du nom de domaine
 
+    * Ensuite on va retrouver le temps par défault d'un bail dhcp et le temps max
+
+    * Ensuite on passe sur la **configuration du réseau**
+
+    * La range correspond aux addresses IP clients dispo
+
+    * On définit le nom de domaine / gateway /l'adresse de broadcast
+
+
+* On clone la VM patron encore #client2 :
+
+    * On lui configure l'interface en DHCP :
+        ```
+        [quentin@client2 ~]$ cat /etc/sysconfig/network-scripts/ifcfg-enp0s8 
+        TYPE=Ethernet
+        BOOTPROTO=dhcp
+
+        NAME=enp0s8
+        DEVICE=enp0s8
+
+        ONBOOT=yes
+        ```
+    
+    * On fait un ifdown / ifup enp0s8
+
+    * On vérifie que l'on a bien récup une ip dans la plage d'IP définie : 
+        ```
+        [quentin@client2 ~]$ ip a | grep "inet "
+            inet 127.0.0.1/8 scope host lo
+            inet 10.2.1.50/24 brd 10.2.1.255 scope global dynamic enp0s8
+        ```
+    
+    * On check si on a une route par défault qui c'est add : 
+        ```
+        [quentin@client2 ~]$ ip r s
+        default via 10.2.1.254 dev enp0s8 proto static metric 100 
+        10.2.1.0/24 dev enp0s8 proto kernel scope link src 10.2.1.50 metric 100
+        ```
 ## 3. NTP server
 
+* On ajoute le pool de serveur français dans le fichier **chrony.conf** : 
+    ```
+    # Replace XXX with needed server names
+    server 0.europe.pool.ntp.org
+    server 1.europe.pool.ntp.org
+    server 2.europe.pool.ntp.org
+    server 3.europe.pool.ntp.org
+    ```
+
+* On ouvre le port utilisé par NTP + reload: 
+    ```
+    [quentin@router1 ~]$ sudo firewall-cmd --add-port=123/udp --permanent
+    [sudo] Mot de passe de quentin : 
+    success
+    [quentin@router1 ~]$ sudo firewall-cmd --reload
+    success
+    ```
+
+* On installer chrony + start : 
+    ```
+    [quentin@router1 ~]$ sudo yum -y install chrony
+    ```
+
+    ```
+    [quentin@router1 ~]$ sudo systemctl start chronyd
+    [quentin@router1 ~]$ systemctl status chronyd
+    ● chronyd.service - NTP client/server
+    Loaded: loaded (/usr/lib/systemd/system/chronyd.service; enabled; vendor preset: enabled)
+    Active: active (running) since lun. 2019-03-04 11:18:52 CET; 2s ago
+    ```
+
+* **Etat de synchronisation NTP** : 
+
+    * Chronyc sources **router1** :
+
+        ```
+        [quentin@router1 ~]$ chronyc sources
+        210 Number of sources = 4
+        MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+        ===============================================================================
+        ^? ptbtime1.ptb.de               1   6     1     3   -939ms[ -939ms] +/-   23ms
+        ^? 134-249-140-99.broadband>     2   6     3     2   -922ms[ -922ms] +/-  100ms
+        ^? ip235.ip-151-80-165.eu        2   6     3     3   -928ms[ -928ms] +/-   40ms
+        ^? ntp12.berlin-provider.de      2   6     3     3   -929ms[ -929ms] +/-   47ms
+        ```
+
+    * Chronyc tracking **router1** : 
+        ```
+        [quentin@router1 ~]$ chronyc tracking
+        Reference ID    : C035676C (ptbtime1.ptb.de)
+        Stratum         : 2
+        Ref time (UTC)  : Mon Mar 04 10:31:49 2019
+        System time     : 0.000641622 seconds fast of NTP time
+        Last offset     : -0.000115246 seconds
+        RMS offset      : 0.003322741 seconds
+        Frequency       : 1.602 ppm fast
+        Residual freq   : -0.022 ppm
+        Skew            : 4.410 ppm
+        Root delay      : 0.035957448 seconds
+        Root dispersion : 0.001017101 seconds
+        Update interval : 64.9 seconds
+        Leap status     : Normal
+        ```
+
+* Exemple sur **dhcp-server** : 
+
+    * Chronyc sources : 
+        ```
+        [quentin@dhcp-server ~]$ chronyc sources
+        210 Number of sources = 1
+        MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+        ===============================================================================
+        ^? router1                       2   6     1     2    +76us[  +76us] +/-   19ms
+        ```
+
+        _Il passe bien par router1_
+
+    * Chronyc tracking
+        ```
+        [quentin@dhcp-server ~]$ chronyc tracking
+        Reference ID    : 7F7F0101 ()
+        Stratum         : 10
+        Ref time (UTC)  : Mon Mar 04 10:41:18 2019
+        System time     : 0.000000000 seconds slow of NTP time
+        Last offset     : +0.000000000 seconds
+        RMS offset      : 0.000000000 seconds
+        Frequency       : 0.000 ppm slow
+        Residual freq   : +0.000 ppm
+        Skew            : 0.000 ppm
+        Root delay      : 0.000000000 seconds
+        Root dispersion : 0.000000000 seconds
+        Update interval : 0.0 seconds
+        Leap status     : Normal
+        ```
+
 ## 4. Web server
+
