@@ -17,6 +17,8 @@
 
 ## 1. Mise en place du lab
 
+#### > Tableau d'adressage
+
 Hosts | `10.1.1.0/24`
 --- | ---
 `client1.lab1.tp3` | `10.1.1.1/24`
@@ -189,7 +191,7 @@ Hosts | `10.1.1.0/24`
 
 ## 1. Mise en place du lab
 
-#### > Réseau(x)
+#### > 3 Réseaux host only
 
 Nom | Adresse
 --- | ---
@@ -206,6 +208,50 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
 `server1.lab2.tp3` | x | `10.2.2.10/24` | x
 `router1.lab2.tp3` | `10.2.1.254/24` | x | `10.2.12.1/30`
 `router2.lab2.tp3` | x | `10.2.2.254/24` | `10.2.12.2/30`
+
+* Test de ping pour les client / serveur qui peuvent joindre leurs **gateways** respectives :
+
+    * client2 vers router1 :
+
+        ```
+        [axel@client2 ~]$ ping 10.2.1.254
+        PING 10.2.1.254 (10.2.1.254) 56(84) bytes of data.
+        64 bytes from 10.2.1.254: icmp_seq=1 ttl=255 time=2.60 ms
+        64 bytes from 10.2.1.254: icmp_seq=2 ttl=255 time=1.95 ms
+        64 bytes from 10.2.1.254: icmp_seq=3 ttl=255 time=1.85 ms
+        ^C
+        --- 10.2.1.254 ping statistics ---
+        3 packets transmitted, 3 received, 0% packet loss, time 3012ms
+        rtt min/avg/max/mdev = 1.851/2.138/2.607/0.338 ms
+        ```
+    
+    * server1 vers router2 :
+
+        ```
+        [axel@server1 ~]$ ping 10.2.2.254
+        PING 10.2.2.254 (10.2.2.254) 56(84) bytes of data.
+        64 bytes from 10.2.2.254: icmp_seq=1 ttl=255 time=2.60 ms
+        64 bytes from 10.2.2.254: icmp_seq=2 ttl=255 time=1.95 ms
+        64 bytes from 10.2.2.254: icmp_seq=3 ttl=255 time=1.85 ms
+        ^C
+        --- 10.2.2.254 ping statistics ---
+        3 packets transmitted, 3 received, 0% packet loss, time 3012ms
+        rtt min/avg/max/mdev = 1.851/2.138/2.607/0.338 ms
+        ```
+
+    * router2 vers router1 :
+
+        ```
+        router2#ping 10.2.12.1
+
+        Type escape sequence to abort.
+        Sending 5, 100-byte ICMP Echos to 10.2.12.1, timeout is 2 seconds:
+        .!!!!
+        Success rate is 80 percent (4/5), round-trip min/avg/max = 48/60/64 ms
+        router2#
+        ```
+
+        _Les **routeurs** communiquent bien entre eux_
 
 ## 2. Configuration du routage statique
 
