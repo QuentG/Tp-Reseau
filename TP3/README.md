@@ -393,7 +393,7 @@ Hosts | `10.3.100.0/30` | `10.3.100.4/30` | `10.3.100.8/30` | `10.3.100.12/30` |
 
 * Test pour voir si les routeurs peuvent discuter entre eux (de point à point) :
 
-    * Vu que y en a beaucoup on met qu'un screen (ping de router2 vers router3):
+    * Vu que y en a beaucoup on met qu'un screen (ping de router2 vers router3) :
 
         ```
         R2#ping 10.3.100.6
@@ -424,15 +424,28 @@ Hosts | `10.3.100.0/30` | `10.3.100.4/30` | `10.3.100.8/30` | `10.3.100.12/30` |
 
 * Partage de **tous** les réseaux auquel le routeur est connecté : 
 
-    * Exemple sur router1 : 
+    * Exemple sur router2 : 
 
         ```
-
+        R2#show ip protocols
+        Routing Protocol is "ospf 1"
+        Outgoing update filter list for all
+        interfaces is not set
+        Incoming update filter list for all
+        interfaces is not set
+        Router ID 2.2.2.2
+        Number of areas in this router is 3. 3 normal 0 stub 0 nssa
+        Maximum path: 4
+        Routing for Networks:
+            10.3.100.0 0.0.0.3 area 0
+            10.3.101.0 0.0.0.0 area 1
+            10.3.102.0 0.0.0.0 area 2
         ```
 
-* Ajout d'une router par défault sur client1 / server1 qui pointe vers leurs passerelles respectives : 
+* Ajout d'une route par défault sur client1 / server1 qui pointe vers leurs passerelles respectives : 
 
     * Sur client1 :
+    
         ```
 
         ```
@@ -454,7 +467,7 @@ Hosts | `10.3.100.0/30` | `10.3.100.4/30` | `10.3.100.8/30` | `10.3.100.12/30` |
     * Sur router1 : 
 
         ```
-        
+
         ```
 
 # IV. Lab Final
