@@ -314,7 +314,7 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
 
 * Topologie où tous les clients auraient la même passerelle :
 
-```
+```md
                 router1
               +--------+
               |        |
