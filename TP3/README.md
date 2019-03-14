@@ -209,7 +209,7 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
 `router1.lab2.tp3` | `10.2.1.254/24` | x | `10.2.12.1/30`
 `router2.lab2.tp3` | x | `10.2.2.254/24` | `10.2.12.2/30`
 
-* Test de ping pour les client / serveur qui peuvent joindre leurs **gateways** respectives :
+* Test sur les client / serveur pour voir si ils peuvent joindre leurs **gateways** respectives :
 
     * client2 vers router1 :
 
@@ -344,11 +344,57 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
 ```
 
 # III. Mise en place d'OSPF
-
-
-
+ 
 ## 1. Mise en place du lab
 
+* Test sur les client / serveur pour voir si ils peuvent joindre leurs **gateways** respectives :
+
+    * client1 vers router4 :
+
+        ```
+        [axel@client1 ~]$ ping 10.3.101.254
+        PING 10.3.101.254 (10.3.101.254) 56(84) bytes of data.
+        64 bytes from 10.3.101.254: icmp_seq=1 ttl=62 time=2.60 ms
+        64 bytes from 10.3.101.254: icmp_seq=2 ttl=62 time=1.95 ms
+        64 bytes from 10.3.101.254: icmp_seq=4 ttl=62 time=1.85 ms
+        ^C
+        --- 10.3.101.254 ping statistics ---
+        5 packets transmitted, 5 received, 0% packet loss, time 3012ms
+        rtt min/avg/max/mdev = 27.334/33.680/40.574/4.687 ms
+        ```
+
+    * server1 vers router1 :
+
+        ```
+        [axel@server1 ~]$ ping 10.3.102.254
+        PING 10.3.102.254 (10.3.102.254) 56(84) bytes of data.
+        64 bytes from 10.3.102.254: icmp_seq=1 ttl=62 time=2.60 ms
+        64 bytes from 10.3.102.254: icmp_seq=2 ttl=62 time=1.95 ms
+        64 bytes from 10.3.102.254: icmp_seq=3 ttl=62 time=1.85 ms
+        64 bytes from 10.3.102.254: icmp_seq=4 ttl=62 time=1.85 ms
+        ^C
+        --- 10.3.102.254 ping statistics ---
+        4 packets transmitted, 4 received, 0% packet loss, time 3012ms
+        rtt min/avg/max/mdev = 21.329/31.201/42.675/7.593 ms
+        ```
+
+* Test pour voir si les routeurs peuvent discuter entre eux (de point à point) :
+
+    * Vu que y en a beaucoup on met qu'un screen (ping de router2 vers router3):
+
+        ```
+        R2#ping 10.3.100.6
+
+        Type escape sequence to abort.
+        Sending 5, 100-byte ICMP Echos to 10.3.100.6, timeout is 2 seconds:
+        .!!!!
+        Success rate is 80 percent (4/5), round-trip min/avg/max = 16/42/68 ms
+        ```
+
+        ✅**TOUS** les autres routeurs peuvent discuter entre eux (de point à point)
+
 ## 2. Configuration de OSPF
+
+
 
 # IV. Lab Final
