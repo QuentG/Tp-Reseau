@@ -354,12 +354,12 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
         ```
         [axel@client1 ~]$ ping 10.3.101.254
         PING 10.3.101.254 (10.3.101.254) 56(84) bytes of data.
-        64 bytes from 10.3.101.254: icmp_seq=1 ttl=62 time=2.60 ms
-        64 bytes from 10.3.101.254: icmp_seq=2 ttl=62 time=1.95 ms
-        64 bytes from 10.3.101.254: icmp_seq=4 ttl=62 time=1.85 ms
+        64 bytes from 10.3.101.254: icmp_seq=1 ttl=62 time=2.85 ms
+        64 bytes from 10.3.101.254: icmp_seq=2 ttl=62 time=2.20 ms
+        64 bytes from 10.3.101.254: icmp_seq=3 ttl=62 time=1.70 ms
         ^C
         --- 10.3.101.254 ping statistics ---
-        5 packets transmitted, 5 received, 0% packet loss, time 3012ms
+        5 packets transmitted, 5 received, 0% packet loss, time 3501ms
         rtt min/avg/max/mdev = 27.334/33.680/40.574/4.687 ms
         ```
 
@@ -374,7 +374,7 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
         64 bytes from 10.3.102.254: icmp_seq=4 ttl=62 time=1.85 ms
         ^C
         --- 10.3.102.254 ping statistics ---
-        4 packets transmitted, 4 received, 0% packet loss, time 3012ms
+        4 packets transmitted, 4 received, 0% packet loss, time 2830ms
         rtt min/avg/max/mdev = 21.329/31.201/42.675/7.593 ms
         ```
 
@@ -395,6 +395,19 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
 
 ## 2. Configuration de OSPF
 
+* Activation de OSPF sur chaque router :
+
+    ```
+    (config)# router ospf 1
+    ```
+
+* Définition d'un **router-id** sur chaque router :
+
+    ```
+    (config-router)# router-id 1.1.1.1
+
+    etc..
+    ```
 
 
 # IV. Lab Final
