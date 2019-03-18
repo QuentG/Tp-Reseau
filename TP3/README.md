@@ -264,6 +264,7 @@ Hosts | `lab2-net1` |  `lab2-net2` |  `lab2-net12`
         ```
         sudo ip route add 10.2.1.0/24 via 10.2.2.254 dev enp0s3
         ```
+
     * Sur client2 :
     
         ```
@@ -434,40 +435,96 @@ Hosts | `10.3.100.0/30` | `10.3.100.4/30` | `10.3.100.8/30` | `10.3.100.12/30` |
         Incoming update filter list for all
         interfaces is not set
         Router ID 2.2.2.2
-        Number of areas in this router is 3. 3 normal 0 stub 0 nssa
+        Number of areas in this router is 2. 2 normal 0 stub 0 nssa
         Maximum path: 4
         Routing for Networks:
             10.3.100.0 0.0.0.3 area 0
-            10.3.101.0 0.0.0.0 area 1
-            10.3.102.0 0.0.0.0 area 2
+            10.3.101.0 0.0.0.3 area 1
         ```
 
 * Ajout d'une route par défault sur client1 / server1 qui pointe vers leurs passerelles respectives : 
 
-    * Sur client1 :
-    
-        ```
+    * Test de ping : 
 
-        ```
+        * De client1 vers server1 : 
 
-    * Sur router1 : 
+            ```
+            [quentin@client1 ~]$ ping 10.3.102.10
+            PING 10.3.102.10 (10.3.102.10) 60(86) bytes of data.
+            64 bytes from 10.3.102.10: icmp_seq=1 ttl=62 time=2.60 ms
+            64 bytes from 10.3.102.10: icmp_seq=2 ttl=62 time=1.95 ms
+            64 bytes from 10.3.102.10: icmp_seq=3 ttl=62 time=1.85 ms
+            ^C
+            --- 10.3.102.10 ping statistics ---
+            3 packets transmitted, 3 received, 0% packet loss, time 3120ms
+            rtt min/avg/max/mdev = 23.839/33.992/44.372/9.231 ms
+            ```
 
-        ```
-        
-        ```
-
-* Test de ping : 
-
-    * Sur client1 : 
-
-        ```
-
-        ```
-
-    * Sur router1 : 
-
-        ```
-
-        ```
+            _It's work 🔥_
 
 # IV. Lab Final
+
+#### > Topologie
+
+```
+                                                         NAT
+                                                    +------------+
+                                            +-------+            |
+                                            |       |            |
+                                            |       +------------+
+                                            |
+                                            |
+                                  router1   |
+                            +---------------++
+                            |                |
+                            |                |
+                            |                |
+                +-----------+                +------------+
+                |           +----------------+            |
+                |                                         |
+                |                                         |
+                |                                         |
+                |                                         |
+        +-------+-------+                        +--------+-----+
+        |               |                        |              |
+router2 |               +------------------------+              |router3
+        |               |                        |              |
+        +-------+-------+                        +--------+-----+
+                |                                         |
+                |                                         |
+                |                                         |
+                |                                         |
+                |                                         |
+                |                                         |
+         +------+-------+                         +-------+------+
+         |              |                         |              |
+         |              |                         |              |
+ Switch1 |              |                         |              |Switch2
+         |              |                         |              |
+         +------+-------+                         +-----+---+----+
+                |                                       |   |
+                |                               VLAN 20 |   | VLAN 30
+                |   VLAN 10                             |   |
+                |                    +------------+     |   |    +--------------+
+                |                    |            |     |   |    |              |
+         +------+-------+            |            +-----+   +----+              |
+         |              |            |            |              |              |
+         |              |            +------------+              +--------------+
+  Server1|              |                client1                      client2
+         |              |
+         +--------------+
+
+```
+
+#### > Tableau d'adressage IP
+
+Hosts | `10.3.1.0/30` |  `10.3.1.3/30` |  `10.3.1.6/30` | `10.3.101.0/24` | `10.3.102.0/24`
+--- | --- | --- | --- | --- | ---
+`router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.7/30` | x | x
+`router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.4/30` | x | x | x
+`router3.lab4.tp3` | x | `10.3.1.5/30` | `10.3.1.8/30` | x | x
+`client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x
+`client2.lab4.tp3` | x | x | x | `10.3.101.11/24` | x
+`server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
+
+
