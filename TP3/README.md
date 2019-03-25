@@ -523,9 +523,9 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
 `router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.9/30` | x | x
 `router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.5/30` | x | x | x
 `router3.lab4.tp3` | x | `10.3.1.6/30` | `10.3.1.10/30` | x | x
-`client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x
-`client2.lab4.tp3` | x | x | x | `10.3.101.11/24` | x
-`server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
+`server1.lab4.tp3` | x | x | x | `10.3.101.10/24` | x
+`client1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
+`client2.lab4.tp3` | x | x | x | x | `10.3.102.11/24` 
 
 
 ### 1. Configuration des VMs
@@ -578,7 +578,7 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         ```
         R2#show ip int br
         Interface                  IP-Address      OK? Method Status                Protocol
-        FastEthernet0/0            10.3.1.6        YES manual up                    up
+        FastEthernet0/0            10.3.1.5        YES manual up                    up
         FastEthernet1/0            10.3.1.2        YES manual up                    up
         FastEthernet2/0            unassigned      YES unset  administratively down down
         FastEthernet3/0            unassigned      YES unset  administratively down down
@@ -590,34 +590,39 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         R3#show ip int br
         Interface                  IP-Address      OK? Method Status                Protocol
         FastEthernet0/0            10.3.1.10       YES manual up                    up
-        FastEthernet1/0            unassigned      YES manual up                    up
+        FastEthernet1/0            unassigned      YES unset administratively down  down
         FastEthernet2/0            10.3.1.6        YES manual up                    up
-        FastEthernet3/0            unassigned      YES unset  administratively down down
+        FastEthernet3/0            unassigned      YES unset administratively down  down
         ```
 
-        _Toutes les VMs arrivent à ce **ping**_ 🔥
+        _Toutes les VMs arrivent à ce **ping** 🔥_
 
-* Activation **OSPF** :
+* Mise en place **OSPF** :
 
-    ```
-    R1(config)# router ospf 1
+    * Activation **OSPF** :
 
-    R2(config)# router ospf 1
+        ```
+        R1(config)# router ospf 1
 
-    R3(config)# router ospf 1
-    ```
+        R2(config)# router ospf 1
 
-* Définition d'un **router-id** pour chaque routeur :
+        R3(config)# router ospf 1
+        ```
 
-    ```
-    R1(config-router)# router-id 1.1.1.1
+    * Définition d'un **router-id** pour chaque routeur :
 
-    R2(config-router)# router-id 2.2.2.2
+        ```
+        R1(config-router)# router-id 1.1.1.1
 
-    R3(config-router)# router-id 3.3.3.3
-    ```
+        R2(config-router)# router-id 2.2.2.2
 
+        R3(config-router)# router-id 3.3.3.3
+        ```
 
+    * Partage de route : 
+
+        ```
+        ```
 
 ## 3. Configuration des switchs
 
