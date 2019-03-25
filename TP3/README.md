@@ -523,9 +523,9 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
 `router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.9/30` | x | x
 `router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.5/30` | x | x | x
 `router3.lab4.tp3` | x | `10.3.1.6/30` | `10.3.1.10/30` | x | x
-`server1.lab4.tp3` | x | x | x | `10.3.101.10/24` | x
-`client1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
-`client2.lab4.tp3` | x | x | x | x | `10.3.102.11/24` 
+`client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x
+`client2.lab4.tp3` | x | x | x | `10.3.101.11/24` | x
+`server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
 
 
 ### 1. Configuration des VMs
@@ -595,7 +595,7 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         FastEthernet3/0            unassigned      YES unset administratively down  down
         ```
 
-        _Toutes les VMs arrivent à ce **ping** 🔥_
+        _Tous les routers arrivent à ce **ping** 🔥_
 
 * Mise en place **OSPF** :
 
