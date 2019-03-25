@@ -562,11 +562,40 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
 
 * On va commencer par attribuer des **IPs** aux routers :
 
-    * Exemple pour router2 :
+    * Pour router1 : 
 
         ```
+        R1#show ip int br
+        Interface                  IP-Address      OK? Method Status                Protocol
+        FastEthernet0/0            unassigned      YES unset  administratively down down
+        FastEthernet1/0            10.3.1.9        YES manual up                    up
+        FastEthernet2/0            10.3.1.1        YES manual up                    up
+        FastEthernet3/0            unassigned      YES unset  administratively down down
+        ```
+
+    * Pour router2 :
 
         ```
+        R2#show ip int br
+        Interface                  IP-Address      OK? Method Status                Protocol
+        FastEthernet0/0            10.3.1.6        YES manual up                    up
+        FastEthernet1/0            10.3.1.2        YES manual up                    up
+        FastEthernet2/0            unassigned      YES unset  administratively down down
+        FastEthernet3/0            unassigned      YES unset  administratively down down
+        ```
+
+    * Pour router3 : 
+
+        ```
+        R3#show ip int br
+        Interface                  IP-Address      OK? Method Status                Protocol
+        FastEthernet0/0            10.3.1.10       YES manual up                    up
+        FastEthernet1/0            unassigned      YES manual up                    up
+        FastEthernet2/0            10.3.1.6        YES manual up                    up
+        FastEthernet3/0            unassigned      YES unset  administratively down down
+        ```
+
+        _Toutes les VMs arrivent à ce **ping**_ 🔥
 
 * Activation **OSPF** :
 
