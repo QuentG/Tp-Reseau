@@ -580,7 +580,7 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         Interface                  IP-Address      OK? Method Status                Protocol
         FastEthernet0/0            10.3.1.5        YES manual up                    up
         FastEthernet1/0            10.3.1.2        YES manual up                    up
-        FastEthernet2/0            unassigned      YES unset  administratively down down
+        FastEthernet2/0            10.3.102.11     YES manual up                    up
         FastEthernet3/0            unassigned      YES unset  administratively down down
         ```
 
@@ -590,9 +590,9 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         R3#show ip int br
         Interface                  IP-Address      OK? Method Status                Protocol
         FastEthernet0/0            10.3.1.10       YES manual up                    up
-        FastEthernet1/0            unassigned      YES unset administratively down  down
+        FastEthernet1/0            10.3.101.12     YES manual up                    up
         FastEthernet2/0            10.3.1.6        YES manual up                    up
-        FastEthernet3/0            unassigned      YES unset administratively down  down
+        FastEthernet3/0            unassigned      YES unset  administratively down down
         ```
 
         _Tous les routers arrivent à ce **ping** 🔥_
@@ -622,6 +622,7 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
     * Partage de route : 
 
         ```
+         
         ```
 
 ## 3. Configuration des switchs
