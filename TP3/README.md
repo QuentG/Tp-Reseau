@@ -373,7 +373,7 @@ Hosts | `10.3.100.0/30` | `10.3.100.4/30` | `10.3.100.8/30` | `10.3.100.12/30` |
         64 bytes from 10.3.101.254: icmp_seq=3 ttl=62 time=1.70 ms
         ^C
         --- 10.3.101.254 ping statistics ---
-        5 packets transmitted, 5 received, 0% packet loss, time 3501ms
+        3 packets transmitted, 3 received, 0% packet loss, time 3501ms
         rtt min/avg/max/mdev = 27.334/33.680/40.574/4.687 ms
         ```
 
@@ -518,11 +518,11 @@ router2 |               +------------------------+              |router3
 
 #### > Tableau d'adressage IP
 
-Hosts | `10.3.1.0/28` |  `10.3.1.3/28` |  `10.3.1.6/28` | `10.3.101.0/24` | `10.3.102.0/24`
+Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.3.102.0/24`
 --- | --- | --- | --- | --- | ---
-`router1.lab4.tp3` | `10.3.1.1/28` | x | `10.3.1.7/28` | x | x
-`router2.lab4.tp3` | `10.3.1.2/28` | `10.3.1.4/28` | x | x | x
-`router3.lab4.tp3` | x | `10.3.1.5/28` | `10.3.1.8/28` | x | x
+`router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.9/30` | x | x
+`router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.4/30` | x | x | x
+`router3.lab4.tp3` | x | `10.3.1.5/30` | `10.3.1.10/30` | x | x
 `client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x
 `client2.lab4.tp3` | x | x | x | `10.3.101.11/24` | x
 `server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
@@ -560,14 +560,34 @@ Hosts | `10.3.1.0/28` |  `10.3.1.3/28` |  `10.3.1.6/28` | `10.3.101.0/24` | `10.
 
 ## 2. Configuration des routeurs 
 
-* On va commencer par attribuer des **IP** aux routers :
+* On va commencer par attribuer des **IPs** aux routers :
 
-    * Exemple pour router1 :
-
-        ```
-        Router1#show ip int br
+    * Exemple pour router2 :
 
         ```
+
+        ```
+
+* Activation **OSPF** :
+
+    ```
+    R1(config)# router ospf 1
+
+    R2(config)# router ospf 1
+
+    R3(config)# router ospf 1
+    ```
+
+* Définition d'un **router-id** pour chaque routeur :
+
+    ```
+    R1(config-router)# router-id 1.1.1.1
+
+    R2(config-router)# router-id 2.2.2.2
+
+    R3(config-router)# router-id 3.3.3.3
+    ```
+
 
 
 ## 3. Configuration des switchs
