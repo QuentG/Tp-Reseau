@@ -451,9 +451,9 @@ Hosts | `10.3.100.0/30` | `10.3.100.4/30` | `10.3.100.8/30` | `10.3.100.12/30` |
             ```
             [quentin@client1 ~]$ ping 10.3.102.10
             PING 10.3.102.10 (10.3.102.10) 60(86) bytes of data.
-            64 bytes from 10.3.102.10: icmp_seq=1 ttl=62 time=2.60 ms
-            64 bytes from 10.3.102.10: icmp_seq=2 ttl=62 time=1.95 ms
-            64 bytes from 10.3.102.10: icmp_seq=3 ttl=62 time=1.85 ms
+            64 bytes from 10.3.102.10: icmp_seq=1 ttl=62 time=2.85 ms
+            64 bytes from 10.3.102.10: icmp_seq=2 ttl=62 time=2.02 ms
+            64 bytes from 10.3.102.10: icmp_seq=3 ttl=62 time=1.97 ms
             ^C
             --- 10.3.102.10 ping statistics ---
             3 packets transmitted, 3 received, 0% packet loss, time 3120ms
@@ -499,7 +499,7 @@ router2 |               +------------------------+              |router3
          +------+-------+                         +-------+------+
          |              |                         |              |
          |              |                         |              |
- Switch1 |              |                         |              |Switch2
+ switch1 |              |                         |              |switch2
          |              |                         |              |
          +------+-------+                         +-----+---+----+
                 |                                       |   |
@@ -510,7 +510,7 @@ router2 |               +------------------------+              |router3
          +------+-------+            |            +-----+   +----+              |
          |              |            |            |              |              |
          |              |            +------------+              +--------------+
-  Server1|              |                client1                      client2
+  server1|              |                client1                      client2
          |              |
          +--------------+
 
@@ -518,13 +518,57 @@ router2 |               +------------------------+              |router3
 
 #### > Tableau d'adressage IP
 
-Hosts | `10.3.1.0/30` |  `10.3.1.3/30` |  `10.3.1.6/30` | `10.3.101.0/24` | `10.3.102.0/24`
+Hosts | `10.3.1.0/28` |  `10.3.1.3/28` |  `10.3.1.6/28` | `10.3.101.0/24` | `10.3.102.0/24`
 --- | --- | --- | --- | --- | ---
-`router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.7/30` | x | x
-`router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.4/30` | x | x | x
-`router3.lab4.tp3` | x | `10.3.1.5/30` | `10.3.1.8/30` | x | x
+`router1.lab4.tp3` | `10.3.1.1/28` | x | `10.3.1.7/28` | x | x
+`router2.lab4.tp3` | `10.3.1.2/28` | `10.3.1.4/28` | x | x | x
+`router3.lab4.tp3` | x | `10.3.1.5/28` | `10.3.1.8/28` | x | x
 `client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x
 `client2.lab4.tp3` | x | x | x | `10.3.101.11/24` | x
 `server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
 
+
+### 1. Configuration des VMs
+
+* On set le bon hostname sur chacune des VMs : 
+
+    ```
+    [axel@localhost ~]$ sudo echo 'client1.lab4.tp3' | sudo tee /ect/hostname
+
+    [axel@localhost ~]$ sudo echo 'client2.lab4.tp3' | sudo tee /ect/hostname
+
+    [axel@localhost ~]$ sudo echo 'server1.lab4.tp3' | sudo tee /ect/hostname
+    ```
+
+* Configuration d'ip statique sur chacune des VMs : 
+
+    * Exemple pour client1 :
+        ```
+        [axel@client1 ~]$ cat /etc/sysconfig/network-scripts/ifcfg-enp0s8
+        TYPE=Ethernet
+        BOOTPROTO=static
+        NAME=enp0s8
+        DEVICE=enp0s8
+        ONBOOT=yes
+
+        IPADDR=10.3.101.10
+        NETMASK=255.255.255.0
+        ```
+
+        _etc.._
+
+
+## 2. Configuration des routeurs 
+
+* On va commencer par attribuer des **IP** aux routers :
+
+    * Exemple pour router1 :
+
+        ```
+        Router1#show ip int br
+
+        ```
+
+
+## 3. Configuration des switchs
 
