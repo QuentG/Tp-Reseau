@@ -666,14 +666,14 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         * server1 vers client1 : 
 
             ```
-            [axel@client1 ~]$ ping 10.3.101.10
+            [axel@server1 ~]$ ping 10.3.101.10
             PING 10.3.101.10(10.3.101.10) 56(84) bytes of data.
             64 bytes from 10.3.101.10: icmp_seq=1 ttl=255 time=3.04 ms
             64 bytes from 10.3.101.10: icmp_seq=2 ttl=255 time=8.00 ms
             64 bytes from 10.3.101.10: icmp_seq=3 ttl=255 time=2.69 ms
             ^C
             --- 10.3.101.10 ping statistics ---
-            3 packets transmitted, 3 received, 0% packet loss, time 6017ms
+            3 packets transmitted, 3 received, 0% packet loss, time 7324ms
             rtt min/avg/max/mdev = 2.608/6.924/12.302/2.987 ms
             ```
 
@@ -681,7 +681,44 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
 
 ## 3. Configuration de la NAT
 
+* Dans notre topologie nous avons la **NAT** qui est relié au **router1**, donc tout d'abord nous allons configurer **router1** :
 
+    * Configuration IP sur router1 : 
 
+        ```
+        R1#conf t
+        Enter configuration commands, one per line.  End with CNTL/Z.
+        R1(config)#interface FastEthernet0/0          
+        R1(config-if)#ip address dhcp
+        R1(config-if)#no shut
+        ```
+
+    * Vérification : 
+
+        ```
+        R1#show ip int br
+        Interface                  IP-Address      OK? Method Status                Protocol
+        FastEthernet0/0            192.168.122.251 YES DHCP   up                    up
+        FastEthernet1/0            10.3.1.9        YES NVRAM  up                    up
+        FastEthernet2/0            10.3.1.1        YES NVRAM  up                    up
+        FastEthernet3/0            unassigned      YES NVRAM  administratively down down
+        NVI0                       unassigned      NO  unset  up                    up
+        ```
+
+        _L'inferface **FastEthernet0/0** est bien configurer en **DHCP** est à récupérer une **IP**_
+
+    * Test de ping **google** :
+
+        ```
+        R1#ping 8.8.8.8
+
+        Type escape sequence to abort.
+        Sending 5, 100-byte ICMP Echos to 8.8.8.8, timeout is 2 seconds:
+        !!!!!
+        Success rate is 100 percent (5/5), round-trip min/avg/max = 28/52/80 ms
+        ```
+
+        _**router1** a bien accès à internet 🔥_
+     
 ## 4. Configuration des switchs 
 
