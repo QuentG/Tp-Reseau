@@ -619,11 +619,70 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         R3(config-router)# router-id 3.3.3.3
         ```
 
-    * Partage de route : 
+    * Partage de réseaux : 
+
+        * Exemple sur router2 : 
+        
+            ```
+            R2(config-router)#network 10.3.1.0 0.0.0.3 area 0
+            ```
+
+* Ajout de gateway pour que les clients et le server ce ping :
+
+    * Sur server1 :
 
         ```
-         
+        [axel@server1 ~]$ sudo ip route add 10.3.101.0/24 via 10.3.102.11 dev enp0s3
         ```
 
-## 3. Configuration des switchs
+    * Sur client1 && client2 : 
+
+        ```
+        [axel@client1 ~]$ sudo ip route add 10.3.102.0/24 via 10.3.101.12 dev enp0s3
+
+        [axel@client2 ~]$ sudo ip route add 10.3.102.0/24 via 10.3.101.12 dev enp0s3
+        ```
+
+    * Test de ping entre les machines :
+
+        * client1 vers server1 : 
+
+            ```
+            [axel@client1 ~]$ ping 10.3.101.12
+            PING 10.3.101.12(10.3.101.12) 56(84) bytes of data.
+            64 bytes from 10.3.101.12: icmp_seq=1 ttl=255 time=2.62 ms
+            64 bytes from 10.3.101.12: icmp_seq=2 ttl=255 time=12.2 ms
+
+            64 bytes from 10.3.101.12: icmp_seq=3 ttl=255 time=7.15 ms
+            64 bytes from 10.3.101.12: icmp_seq=4 ttl=255 time=10.6 ms
+            64 bytes from 10.3.101.12: icmp_seq=5 ttl=255 time=10.4 ms
+            64 bytes from 10.3.101.12: icmp_seq=6 ttl=255 time=9.60 ms
+            64 bytes from 10.3.101.12: icmp_seq=7 ttl=255 time=9.14 ms
+            ^C
+            --- 10.3.101.12 ping statistics ---
+            7 packets transmitted, 7 received, 0% packet loss, time 6017ms
+            rtt min/avg/max/mdev = 2.629/8.849/12.282/2.927 ms
+            ```
+
+        * server1 vers client1 : 
+
+            ```
+            [axel@client1 ~]$ ping 10.3.102.11
+            PING 10.3.102.11(10.3.102.11) 56(84) bytes of data.
+            64 bytes from 10.3.102.11: icmp_seq=1 ttl=255 time=2.62 ms
+            64 bytes from 10.3.102.11: icmp_seq=2 ttl=255 time=12.2 ms
+            64 bytes from 10.3.102.11: icmp_seq=3 ttl=255 time=7.15 ms
+            ^C
+            --- 10.3.102.11 ping statistics ---
+            3 packets transmitted, 3 received, 0% packet loss, time 6017ms
+            rtt min/avg/max/mdev = 2.608/6.924/12.302/2.987 ms
+            ```
+
+            _Les clients et le server peuvent se **ping** 🔥_
+
+## 3. Configuration de la NAT
+
+
+
+## 4. Configuration des switchs 
 
