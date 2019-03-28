@@ -533,11 +533,11 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
 * On set le bon hostname sur chacune des VMs : 
 
     ```
-    [axel@localhost ~]$ sudo echo 'client1.lab4.tp3' | sudo tee /ect/hostname
+    [axel@localhost ~]$ sudo echo 'client1.lab4.tp3' | sudo tee /etc/hostname
 
-    [axel@localhost ~]$ sudo echo 'client2.lab4.tp3' | sudo tee /ect/hostname
+    [axel@localhost ~]$ sudo echo 'client2.lab4.tp3' | sudo tee /etc/hostname
 
-    [axel@localhost ~]$ sudo echo 'server1.lab4.tp3' | sudo tee /ect/hostname
+    [axel@localhost ~]$ sudo echo 'server1.lab4.tp3' | sudo tee /etc/hostname
     ```
 
 * Configuration d'ip statique sur chacune des VMs : 
@@ -624,23 +624,22 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         * Exemple sur router2 : 
         
             ```
-            R2(config-router)#network 10.3.1.0 0.0.0.3 area 0
+            R2(config-router)#network 10.3.102.0 0.0.0.255 area 0
+            R2(config-router)#network 10.3.101.0 0.0.0.255 area 0
             ```
 
-* Ajout de gateway pour que les clients et le server ce ping :
+* Ajout de gateway pour que les clients et le server se ping :
 
     * Sur server1 :
 
         ```
-        [axel@server1 ~]$ sudo ip route add 10.3.101.0/24 via 10.3.102.11 dev enp0s3
+        GATEWAY=10.3.102.11
         ```
 
     * Sur client1 && client2 : 
 
         ```
-        [axel@client1 ~]$ sudo ip route add 10.3.102.0/24 via 10.3.101.12 dev enp0s3
-
-        [axel@client2 ~]$ sudo ip route add 10.3.102.0/24 via 10.3.101.12 dev enp0s3
+        GATEWAY=10.3.101.12
         ```
 
     * Test de ping entre les machines :
@@ -648,18 +647,18 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         * client1 vers server1 : 
 
             ```
-            [axel@client1 ~]$ ping 10.3.101.12
-            PING 10.3.101.12(10.3.101.12) 56(84) bytes of data.
-            64 bytes from 10.3.101.12: icmp_seq=1 ttl=255 time=2.62 ms
-            64 bytes from 10.3.101.12: icmp_seq=2 ttl=255 time=12.2 ms
+            [axel@client1 ~]$ ping 10.3.102.10
+            PING 10.3.102.10(10.3.102.10) 56(84) bytes of data.
+            64 bytes from 10.3.102.10: icmp_seq=1 ttl=255 time=2.62 ms
+            64 bytes from 10.3.102.10: icmp_seq=2 ttl=255 time=12.2 ms
 
-            64 bytes from 10.3.101.12: icmp_seq=3 ttl=255 time=7.15 ms
-            64 bytes from 10.3.101.12: icmp_seq=4 ttl=255 time=10.6 ms
-            64 bytes from 10.3.101.12: icmp_seq=5 ttl=255 time=10.4 ms
-            64 bytes from 10.3.101.12: icmp_seq=6 ttl=255 time=9.60 ms
-            64 bytes from 10.3.101.12: icmp_seq=7 ttl=255 time=9.14 ms
+            64 bytes from 10.3.102.10: icmp_seq=3 ttl=255 time=7.15 ms
+            64 bytes from 10.3.102.10: icmp_seq=4 ttl=255 time=10.6 ms
+            64 bytes from 10.3.102.10: icmp_seq=5 ttl=255 time=10.4 ms
+            64 bytes from 10.3.102.10: icmp_seq=6 ttl=255 time=9.60 ms
+            64 bytes from 10.3.102.10: icmp_seq=7 ttl=255 time=9.14 ms
             ^C
-            --- 10.3.101.12 ping statistics ---
+            --- 10.3.102.10 ping statistics ---
             7 packets transmitted, 7 received, 0% packet loss, time 6017ms
             rtt min/avg/max/mdev = 2.629/8.849/12.282/2.927 ms
             ```
@@ -667,13 +666,13 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         * server1 vers client1 : 
 
             ```
-            [axel@client1 ~]$ ping 10.3.102.11
-            PING 10.3.102.11(10.3.102.11) 56(84) bytes of data.
-            64 bytes from 10.3.102.11: icmp_seq=1 ttl=255 time=2.62 ms
-            64 bytes from 10.3.102.11: icmp_seq=2 ttl=255 time=12.2 ms
-            64 bytes from 10.3.102.11: icmp_seq=3 ttl=255 time=7.15 ms
+            [axel@client1 ~]$ ping 10.3.101.10
+            PING 10.3.101.10(10.3.101.10) 56(84) bytes of data.
+            64 bytes from 10.3.101.10: icmp_seq=1 ttl=255 time=3.04 ms
+            64 bytes from 10.3.101.10: icmp_seq=2 ttl=255 time=8.00 ms
+            64 bytes from 10.3.101.10: icmp_seq=3 ttl=255 time=2.69 ms
             ^C
-            --- 10.3.102.11 ping statistics ---
+            --- 10.3.101.10 ping statistics ---
             3 packets transmitted, 3 received, 0% packet loss, time 6017ms
             rtt min/avg/max/mdev = 2.608/6.924/12.302/2.987 ms
             ```
