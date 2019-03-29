@@ -846,21 +846,33 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         R3(config-if)#exit
         ```
 
-    * On crée une sous interface :
+    * On crée une sous interface sur **router2** et **router3** pour chaque **vlan** :
 
-        Comme **FastEthernet1/0.20** pour le **vlan20**
+        * Sur router3 :
 
-        ```
-        R3(config)#interface FastEthernet1/0.20
-        R3(config-subif)#encap dot1Q 20 
-        R3(config-subif)#ip add 10.3.101.12 255.255.255.0 
-        R3(config-subif)#no shut
-        R3(config-subif)#exit
+            ```
+            R3(config)#interface FastEthernet1/0.20
+            R3(config-subif)#encap dot1Q 20 
+            R3(config-subif)#ip add 10.3.101.12 255.255.255.0 
+            R3(config-subif)#no shut
+            R3(config-subif)#exit
 
-        R3(config)#interface FastEthernet1/0.30
-        R3(config-subif)#encap dot1Q 20
-        R3(config-subif)#ip add 10.3.103.12 255.255.255.0
-        R3(config-subif)#no shut
-        R3(config-subif)#exit
-        ```
+            R3(config)#interface FastEthernet1/0.30
+            R3(config-subif)#encap dot1Q 20
+            R3(config-subif)#ip add 10.3.103.12 255.255.255.0
+            R3(config-subif)#no shut
+            R3(config-subif)#exit
+            ```
+
+        * Sur router2 : 
+
+            ```
+            R2(config)#interface FastEthernet2/0.10
+            R2(config-subif)#encap dot1Q 10 
+            R2(config-subif)#ip add 10.3.102.11 255.255.255.0
+            R2(config-subif)#no shut
+            R2(config-subif)#exit
+            ```
+
+            
 
