@@ -874,5 +874,28 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
             R2(config-subif)#exit
             ```
 
-            
+_Toutes nos VMs peuvent de nouveau se ping 🔥_
 
+## 5. Installation du service d'infra
+
+* Installation de **nginx** sur **server1** :
+
+    ```
+    sudo yum install nginx -y
+    ```
+
+* Ouverture du port 80 en **tcp** :
+
+    ```
+    sudo firewall-cmd --add-port=80/tcp --permanent
+    sudo firewall-cmd --reload
+    ```
+
+* Sur les vms clientes nous allon faire un wget du server **nginx** installer sur **server1** :
+
+    ![alt text](/TP3/screens/wget.png)
+
+    _(Désolé pour le petit screen)_
+
+
+🔥🔥🔥🔥 Fin du TP 🔥🔥🔥🔥
