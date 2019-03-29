@@ -719,6 +719,70 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
         ```
 
         _**router1** a bien accès à internet 🔥_
-     
+
+* Maintenant on va permettre aux deux autres routeurs d'avoir accès à internet : 
+
+    * Sur router1 : 
+
+        ```
+        R1(config)#interface FastEthernet0/0
+        R1(config-if)#ip nat outside
+        R1(config-if)#exit
+
+        R1(config)#interface FastEthernet1/0
+        R1(config-if)#ip nat inside
+        R1(config-if)#exit
+
+        R1(config)#interface FastEthernet2/0
+        R1(config-if)#ip nat inside
+        R1(config-if)#exit
+
+        R1(config)#ip nat inside source list 1 interface fastEthernet0/0 overload
+        R1(config)#access-list 1 permit any
+        ```
+
+    * On va dire à **OSPF** que **router1** est la passerelle par défault pour accéder à internet : 
+
+        ```
+        R1(config)#router ospf 1
+        R1(config-router)#default-information originate
+        ```
+
+    * Test de ping **google** : 
+
+        * Sur client1 :
+
+            ```
+            [axel@client1 ~]$ ping 8.8.8.8
+            PING 8.8.8.8(8.8.8.8) 56(84) bytes of data.
+            64 bytes from 8.8.8.8: icmp_seq=1 ttl=255 time=5.04 ms
+            64 bytes from 8.8.8.8: icmp_seq=2 ttl=255 time=7.43 ms
+            64 bytes from 8.8.8.8: icmp_seq=3 ttl=255 time=2.31 ms
+            ^C
+            --- 8.8.8.8 ping statistics ---
+            3 packets transmitted, 3 received, 0% packet loss, time 9304ms
+            rtt min/avg/max/mdev = 2.859/6.220/11.678/2.393 ms
+            ```
+
+        * Sur server1 :
+
+            ```
+            [axel@server1 ~]$ ping 8.8.8.8
+            PING 8.8.8.8(8.8.8.8) 56(84) bytes of data.
+            64 bytes from 8.8.8.8: icmp_seq=1 ttl=255 time=6.20 ms
+            64 bytes from 8.8.8.8: icmp_seq=2 ttl=255 time=8.12 ms
+            64 bytes from 8.8.8.8: icmp_seq=3 ttl=255 time=7.49 ms
+            64 bytes from 8.8.8.8: icmp_seq=4 ttl=255 time=7.02 ms
+            64 bytes from 8.8.8.8: icmp_seq=5 ttl=255 time=6.44 ms
+            ^C
+            --- 8.8.8.8 ping statistics ---
+            5 packets transmitted, 5 received, 0% packet loss, time 7439ms
+            rtt min/avg/max/mdev = 2.765/6.153/12.324/2.904ms
+            ```
+
+            _Toutes nos VMs ont maintenant accès à internet 😎_
+
 ## 4. Configuration des switchs 
+
+
 
