@@ -891,11 +891,13 @@ _Toutes nos VMs peuvent de nouveau se ping 🔥_
     sudo firewall-cmd --reload
     ```
 
-* Sur les vms clientes nous allon faire un wget du server **nginx** installer sur **server1** :
+* Sur les vms clientes nous allons faire un wget du server **nginx** installer sur **server1** :
 
-    ![alt text](/TP3/screens/wget.png)
+    * Exemple sur **client1** : 
 
-    _(Désolé pour le petit screen)_
+        ![alt text](/TP3/screens/wget.png)
+
+        _(Désolé pour le petit screen)_
 
 
-🔥🔥🔥🔥 Fin du TP 🔥🔥🔥🔥
+🔥🔥Fin du TP 🔥🔥
