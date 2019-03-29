@@ -626,6 +626,7 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
             ```
             R2(config-router)#network 10.3.102.0 0.0.0.255 area 0
             R2(config-router)#network 10.3.101.0 0.0.0.255 area 0
+            R2(config-router)#network 10.3.103.0 0.0.0.255 area 0
             ```
 
 * Ajout de gateway pour que les clients et le server se ping :
@@ -640,6 +641,7 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
 
         ```
         GATEWAY=10.3.101.12
+        GATEWAY=10.3.103.12
         ```
 
     * Test de ping entre les machines :
@@ -858,7 +860,7 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
             R3(config-subif)#exit
 
             R3(config)#interface FastEthernet1/0.30
-            R3(config-subif)#encap dot1Q 20
+            R3(config-subif)#encap dot1Q 30
             R3(config-subif)#ip add 10.3.103.12 255.255.255.0
             R3(config-subif)#no shut
             R3(config-subif)#exit
