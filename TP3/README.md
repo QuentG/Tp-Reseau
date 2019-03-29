@@ -518,14 +518,14 @@ router2 |               +------------------------+              |router3
 
 #### > Tableau d'adressage IP
 
-Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.3.102.0/24`
---- | --- | --- | --- | --- | ---
-`router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.9/30` | x | x
-`router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.5/30` | x | x | x
-`router3.lab4.tp3` | x | `10.3.1.6/30` | `10.3.1.10/30` | x | x
-`client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x
-`client2.lab4.tp3` | x | x | x | `10.3.101.11/24` | x
-`server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24`
+Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.3.102.0/24` | `10.3.103.0/24`
+--- | --- | --- | --- | --- | --- | ---
+`router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.9/30` | x | x | x
+`router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.5/30` | x | x | x | x
+`router3.lab4.tp3` | x | `10.3.1.6/30` | `10.3.1.10/30` | x | x | x
+`client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x | x
+`client2.lab4.tp3` | x | x | x | x | x | `10.3.103.11/24`
+`server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24` | x
 
 
 ### 1. Configuration des VMs
@@ -755,9 +755,9 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
             ```
             [axel@client1 ~]$ ping 8.8.8.8
             PING 8.8.8.8(8.8.8.8) 56(84) bytes of data.
-            64 bytes from 8.8.8.8: icmp_seq=1 ttl=255 time=5.04 ms
-            64 bytes from 8.8.8.8: icmp_seq=2 ttl=255 time=7.43 ms
-            64 bytes from 8.8.8.8: icmp_seq=3 ttl=255 time=2.31 ms
+            64 bytes from 8.8.8.8: icmp_seq=1 ttl=255 time=114 ms
+            64 bytes from 8.8.8.8: icmp_seq=2 ttl=255 time=117 ms
+            64 bytes from 8.8.8.8: icmp_seq=3 ttl=255 time=178 ms
             ^C
             --- 8.8.8.8 ping statistics ---
             3 packets transmitted, 3 received, 0% packet loss, time 9304ms
@@ -769,11 +769,11 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
             ```
             [axel@server1 ~]$ ping 8.8.8.8
             PING 8.8.8.8(8.8.8.8) 56(84) bytes of data.
-            64 bytes from 8.8.8.8: icmp_seq=1 ttl=255 time=6.20 ms
-            64 bytes from 8.8.8.8: icmp_seq=2 ttl=255 time=8.12 ms
-            64 bytes from 8.8.8.8: icmp_seq=3 ttl=255 time=7.49 ms
-            64 bytes from 8.8.8.8: icmp_seq=4 ttl=255 time=7.02 ms
-            64 bytes from 8.8.8.8: icmp_seq=5 ttl=255 time=6.44 ms
+            64 bytes from 8.8.8.8: icmp_seq=1 ttl=255 time=120 ms
+            64 bytes from 8.8.8.8: icmp_seq=2 ttl=255 time=128 ms
+            64 bytes from 8.8.8.8: icmp_seq=3 ttl=255 time=143 ms
+            64 bytes from 8.8.8.8: icmp_seq=4 ttl=255 time=155 ms
+            64 bytes from 8.8.8.8: icmp_seq=5 ttl=255 time=168 ms
             ^C
             --- 8.8.8.8 ping statistics ---
             5 packets transmitted, 5 received, 0% packet loss, time 7439ms
@@ -784,5 +784,83 @@ Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.
 
 ## 4. Configuration des switchs 
 
+* Configuration du **Switch2** : 
 
+    * Mode access entre **switch2** et **client1** / **client2** : 
+
+        ```
+        Switch2(config)#vlan 20
+        Switch2(config-vlan)#name client1
+        Switch2(config-vlan)#exit
+
+        Switch2(config)#vlan 30
+        Switch2(config-vlan)#name client2
+        Switch2(config-vlan)#exit
+
+        Switch2(config)#interface Ethernet0/2
+        Switch2(config-if)#switchport mode access
+        Switch2(config-if)#switchport access vlan 20
+        Switch2(config-if)#exit
+
+        Switch2(config)#interface Ethernet0/1
+        Switch2(config-if)#switchport mode access
+        Switch2(config-if)#switchport access vlan 30
+        Switch2(config-if)#exit
+        ```
+
+    * Mode trunk entre **router3** et **switch2** : 
+
+        ```
+        Switch2(config)#interface Ethernet0/0
+        Switch2(config-if)#switchport trunk encapsulation dot1q
+        Switch2(config-if)#switchport mode trunk
+        Switch2(config-if)#exit
+        ```
+
+* Pareil pour **Switch1** : 
+
+    ```
+    Switch1(config)#interface Ethernet0/1
+    Switch1(config-if)#switchport mode access
+    Switch1(config-if)#switchport access vlan 10
+    Switch1(config-if)#exit
+
+    Switch1(config)#interface Ethernet0/0
+    Switch1(config-if)#switchport trunk encapsulation dot1q
+    Switch1(config-if)#switchport mode trunk
+    ```
+
+    _Nous avons tous nos Vlans opérationnels_
+
+* Maintenant nous allons faire de l'**inter-vlan** :
+
+    * Sur router3 :
+
+        D'abord nous supprimons l'**IP** que nous avons définie dans le réseau des Vms
+
+        ```
+        R3#conf t
+        Enter configuration commands, one per line.  End with CNTL/Z.
+        R3(config)#interface FastEthernet1/0
+        R3(config-if)#no ip address
+        R3(config-if)#exit
+        ```
+
+    * On crée une sous interface :
+
+        Comme **FastEthernet1/0.20** pour le **vlan20**
+
+        ```
+        R3(config)#interface FastEthernet1/0.20
+        R3(config-subif)#encap dot1Q 20 
+        R3(config-subif)#ip add 10.3.101.12 255.255.255.0 
+        R3(config-subif)#no shut
+        R3(config-subif)#exit
+
+        R3(config)#interface FastEthernet1/0.30
+        R3(config-subif)#encap dot1Q 20
+        R3(config-subif)#ip add 10.3.103.12 255.255.255.0
+        R3(config-subif)#no shut
+        R3(config-subif)#exit
+        ```
 
