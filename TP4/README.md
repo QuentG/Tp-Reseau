@@ -3,6 +3,7 @@
 # Sommaire 
 
 * [1. Schema de la topologie](#1-schema-de-la-topologie)
+* [2. Maquette GNS3](#2-maquette-gns3)
 * [3. Plan d'adressage IP](#3-plan-dadressage-ip)
 * [4. Plan des VLANs](#4-plan-des-vlans)
 * [5. Matériel nécessaire](#5-matériel-nécessaire)
@@ -90,3 +91,4 @@ Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` 
  
 
 ## 5. Matériel nécessaire
+
