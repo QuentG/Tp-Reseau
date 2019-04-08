@@ -3,8 +3,9 @@
 # Sommaire 
 
 * [1. Schema de la topologie](#1-schema-de-la-topologie)
-* [2. Plan d'adressage IP](#2-plan-dadressage-ip)
-* [3. Plan des VLANs](#3-plan-des-vlans)
+* [3. Plan d'adressage IP](#3-plan-dadressage-ip)
+* [4. Plan des VLANs](#4-plan-des-vlans)
+* [5. Matériel nécessaire](#5-matériel-nécessaire)
 
 ## 1. Schema de la topologie
 
@@ -57,7 +58,23 @@
                                                                  +---------+
 
 ```
-## 2. Plan d'adressage IP
 
-## 3. Plan des vlans
+## 2. Maquette GNS3
+
+
+
+## 3. Plan d'adressage IP
+
+Hosts | `10.3.1.0/30` |  `10.3.1.4/30` |  `10.3.1.8/30` | `10.3.101.0/24` | `10.3.102.0/24` | `10.3.103.0/24`
+--- | --- | --- | --- | --- | --- | ---
+`router1.lab4.tp3` | `10.3.1.1/30` | x | `10.3.1.9/30` | x | x | x
+`router2.lab4.tp3` | `10.3.1.2/30` | `10.3.1.5/30` | x | x | x | x
+`router3.lab4.tp3` | x | `10.3.1.6/30` | `10.3.1.10/30` | x | x | x
+`client1.lab4.tp3` | x | x | x | `10.3.101.10/24`| x | x
+`client2.lab4.tp3` | x | x | x | x | x | `10.3.103.11/24`
+`server1.lab4.tp3` | x | x | x | x | `10.3.102.10/24` | x
+
+## 4. Plan des vlans
  
+
+ ## 5. Matériel nécessaire
