@@ -54,7 +54,15 @@
 
 ## 2. Maquette GNS3
 
+![!alt text](/TP4/screens/screenGNS3.png)
 
+* L'architecture comporte bien :
+
+   * ~ 20 personnes pro
+   * 3 RH
+   * 1 admin
+   * 5 serveurs
+   * 5 imprimantes
 
 ## 3. Plan d'adressage IP
 
