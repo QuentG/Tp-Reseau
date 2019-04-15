@@ -110,3 +110,8 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
 
 ## 5. Matériel nécessaire
 
+* Pour réaliser cette infrastructure il faudra :
+
+  * 8 Switchs
+  * 1 routeur
+  * 32 câbles
