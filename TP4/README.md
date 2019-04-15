@@ -54,7 +54,7 @@
 
 ## 2. Maquette GNS3
 
-![!alt text](/TP4/screens/screenGNS.png)
+![!alt text](/TP4/screens/screenGNS3.png)
 
 * L'architecture comporte bien :
 
