@@ -58,6 +58,16 @@
 
 ## 3. Plan d'adressage IP
 
+### Tableau résumé
+Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` | `10.3.140.0/29`
+--- | --- | --- | --- | --- | ---
+`serverN` | `10.3.100.N/28` | x | x | x | x
+`imprN` | x | `10.3.110.N/28` | x | x | x
+`clientN` | x | x | `10.3.120.N/26` | x | x
+`RHN` | x | x | x | `10.3.130.N/28` | x
+`admin` | x | x | x | x | `10.3.140.1/29`
+
+### Tableau complet
 Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` | `10.3.140.0/29`
 --- | --- | --- | --- | --- | ---
 `server1` | `10.3.100.1/28` | x | x | x | x
@@ -81,9 +91,14 @@ Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` 
 
 ## 4. Plan des vlans
  
-   * Les imprimantes seront dans le VLAN 10
-   * Les clients (pro) et les RH seront dans le VLAN 20
-   * L'admin sera dans le VLAN 30
+Hosts | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
+--- | --- | --- | --- |
+`serverN (1 à 2)` | ☑ | x | x |
+`serverN (3 à 5)` | x | x | ☑ |
+`imprN` | ☑ | x | x |
+`clientN` | x | ☑ | x |
+`RHN` | x | ☑ | x |
+`admin` | x | x | ☑ |
 
 ## 5. Matériel nécessaire
 
