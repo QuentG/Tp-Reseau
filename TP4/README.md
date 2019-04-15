@@ -88,7 +88,7 @@ Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` 
 `admin` | x | x | x | x | `10.3.140.1/29`
 
 ## 4. Plan des vlans
- 
+
    * Les imprimantes seront dans le VLAN 10
    * Les clients (pro) et les RH seront dans le VLAN 20
    * L'admin sera dans le VLAN 30
