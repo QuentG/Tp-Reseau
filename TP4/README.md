@@ -99,7 +99,7 @@ Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` 
 
 ## 4. Plan des vlans
  
-Hosts | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
+VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
 --- | --- | --- | --- |
 `serverN (1 à 2)` | ☑ | x | x |
 `serverN (3 à 5)` | x | x | ☑ |
