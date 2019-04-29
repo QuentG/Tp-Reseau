@@ -120,3 +120,9 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
   * 8 Switchs
   * 1 routeur
   * 32 câbles
+  
+ 
+## 7. Progession
+
+On a définit une IP statique pour nos serveurs (parce qu'on ne veut pas les définir via un DHCP, on veut connaitre nos ips)
+Sur notre router, on a configuré un serveur DHCP qui va distribuer des IPs pour nos clients, RH et imprimantes.
