@@ -8,6 +8,7 @@
 * [4. Plan d'adressage IP](#4-plan-dadressage-ip)
 * [5. Plan des VLANs](#5-plan-des-vlans)
 * [6. Matériel nécessaire](#6-matériel-nécessaire)
+* [7. Progression](#7-progression)
 
 ## 1. Pourquoi avoir choisi ce sujet ?
 
@@ -122,7 +123,8 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
   * 32 câbles
   
  
-## 7. Progession
+## 7. Progression
 
-On a définit une IP statique pour nos serveurs (parce qu'on ne veut pas les définir via un DHCP, on veut connaitre nos ips)
-Sur notre router, on a configuré un serveur DHCP qui va distribuer des IPs pour nos clients, RH et imprimantes.
+- On a définit une `IP statique` pour nos serveurs (parce qu'on ne veut pas les définir via un `DHCP`, on veut connaitre nos ips)
+
+- Sur notre router, on a configuré un serveur `DHCP` qui va distribuer des IPs pour nos clients, RH et imprimantes.
