@@ -2,13 +2,18 @@
 
 # Sommaire 
 
-* [1. Schema de la topologie](#1-schema-de-la-topologie)
-* [2. Maquette GNS3](#2-maquette-gns3)
-* [3. Plan d'adressage IP](#3-plan-dadressage-ip)
-* [4. Plan des VLANs](#4-plan-des-vlans)
-* [5. Matériel nécessaire](#5-matériel-nécessaire)
+* [1. Pourquoi avoir choisi ce sujet ?](#1-pourquoi-avoir-choisi-ce-sujet)
+* [2. Schema de la topologie](#2-schema-de-la-topologie)
+* [3. Maquette GNS3](#3-maquette-gns3)
+* [4. Plan d'adressage IP](#4-plan-dadressage-ip)
+* [5. Plan des VLANs](#5-plan-des-vlans)
+* [6. Matériel nécessaire](#6-matériel-nécessaire)
 
-## 1. Schema de la topologie
+## 1. Pourquoi avoir choisi ce sujet ?
+
+
+
+## 2. Schema de la topologie
 
 ```
  RH1   RH2   RH3   impr        admin     clients  impr            clients       impr        clients    impr       clients    impr
@@ -52,7 +57,7 @@
 
 ```
 
-## 2. Maquette GNS3
+## 3. Maquette GNS3
 
 ![!alt text](/TP4/screens/screenGNS3.png)
 
@@ -64,7 +69,7 @@
    * 5 serveurs
    * 5 imprimantes
 
-## 3. Plan d'adressage IP
+## 4. Plan d'adressage IP
 
 ### Tableau résumé
 Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` | `10.3.140.0/29`
@@ -97,8 +102,8 @@ Hosts | `10.3.100.0/28` |  `10.3.110.0/28` |  `10.3.120.0/26` | `10.3.130.0/28` 
 `RH3` | x | x | x | `10.3.130.3/28` | x
 `admin` | x | x | x | x | `10.3.140.1/29`
 
-## 4. Plan des vlans
- 
+## 5. Plan des vlans
+
 VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
 --- | --- | --- | --- |
 `serverN (1 à 2)` | ☑ | x | x |
@@ -108,7 +113,7 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
 `RHN` | x | ☑ | x |
 `admin` | x | x | ☑ |
 
-## 5. Matériel nécessaire
+## 6. Matériel nécessaire
 
 * Pour réaliser cette infrastructure il faudra :
 
