@@ -125,6 +125,44 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
  
 ## 7. Progression
 
-- On a définit une `IP statique` pour nos serveurs (parce qu'on ne veut pas les définir via un `DHCP`, on veut connaitre nos ips)
+* On a définit une `IP statique` pour nos serveurs (parce qu'on ne veut pas les définir via un `DHCP`, on veut connaitre nos ips)
 
-- Sur notre router, on a configuré un serveur `DHCP` qui va distribuer des IPs pour nos clients, RH et imprimantes.
+* Sur notre router, on a configuré un serveur `DHCP` qui va distribuer des IPs pour nos clients, RH et imprimantes.
+
+* Mise en place des `VLANs` :
+
+  * `Vlan10` pour les `imprimantes` / `server(1-3)` / `Vlan20` pour les `pro (clients)` / `Vlan30` pour `l'admin` et `server(4-5)` :
+
+    ```
+    IOU4#show vlan br
+
+    VLAN Name                             Status    Ports
+    ---- -------------------------------- --------- -------------------------------
+    1    default                          active    Et1/0, Et1/2, Et1/3, Et2/0
+                                                   Et2/1, Et2/2, Et2/3, Et3/0
+                                                   Et3/1, Et3/2, Et3/3
+    10   server-impr-network              active    Et0/0
+    20   client-network                   active    Et0/1, Et0/2
+    30   server-admin-network             active    Et0/3
+    1002 fddi-default                     act/unsup 
+    1003 token-ring-default               act/unsup 
+    1004 fddinet-default                  act/unsup 
+    1005 trnet-default                    act/unsup 
+    ```
+
+* Mise en place de l'`inter-vlan` sur le `router1` : 
+
+  ```
+  R1(config)#interface FastEthernet0/0.10
+  R1(config-subif)#encap dot1Q 10 
+  R1(config-subif)#ip add 10.3.110.10 255.255.255.240
+  R1(config-subif)#no shut
+  R1(config-subif)#exit
+
+  R1(config)#interface FastEthernet0/0.20
+  R1(config-subif)#encap dot1Q 20
+  R1(config-subif)#ip add 10.3.120.40 255.255.255.192
+  R1(config-subif)#no shut
+  R1(config-subif)#exit
+  ```
+
