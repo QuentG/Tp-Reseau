@@ -129,15 +129,22 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
 
 * Sur notre router, on a configuré un serveur `DHCP` qui va distribuer des IPs et des gateways pour nos clients, RH et imprimantes :
 
-  * Exemple sur `client1` :
+  * Exemple sur `impr1` :
+
+    ```
+    On demande une p au serveur dhcp pour l'imrpimante
+
+    impr2> ip dhcp -r
+    DDORA IP 10.3.110.1/28 GW 10.3.110.10
+    ```
 
     ```
     VPCS> show ip
 
     NAME        : VPCS[1]
-    IP/MASK     : 10.3.120.3/26 -> Distribué automatiquement grâve au DHCP
-    GATEWAY     : 10.3.120.40 -> IDEM
-    DNS         : 8.8.8.8 -> IDEM
+    IP/MASK     : 10.3.120.3/26 -> Distribué automatiquement grâve au DHCP 🔥
+    GATEWAY     : 10.3.120.40  -> IDEM 🔥
+    DNS         : 8.8.8.8
     DHCP SERVER : 10.3.120.40
     DHCP LEASE  : 86381, 86400/43200/75600
     MAC         : 00:50:79:66:68:0c
@@ -145,7 +152,6 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
     RHOST:PORT  : 127.0.0.1:10091
     MTU:        : 1500
     ```
-
 
 * Mise en place des `VLANs` :
 
@@ -183,5 +189,16 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
   R1(config-subif)#no shut
   R1(config-subif)#exit
   ```
+
+* Petit test de ping entre les clients / imprimantes : 
+
+  ```
+  VPCS> ping 10.3.110.1
+  84 bytes from 10.3.110.1 icmp_seq=3 ttl=63 time=14.616 ms
+  84 bytes from 10.3.110.1 icmp_seq=4 ttl=63 time=23.003 ms
+  84 bytes from 10.3.110.1 icmp_seq=5 ttl=63 time=19.038 ms
+  ```
+
+  🔥
 
 
