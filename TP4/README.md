@@ -127,11 +127,29 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
 
 * On a définit une `IP statique` pour nos serveurs (parce qu'on ne veut pas les définir via un `DHCP`, on veut connaitre nos ips)
 
-* Sur notre router, on a configuré un serveur `DHCP` qui va distribuer des IPs pour nos clients, RH et imprimantes.
+* Sur notre router, on a configuré un serveur `DHCP` qui va distribuer des IPs et des gateways pour nos clients, RH et imprimantes :
+
+  * Exemple sur `client1` :
+
+    ```
+    VPCS> show ip
+
+    NAME        : VPCS[1]
+    IP/MASK     : 10.3.120.3/26 -> Distribué automatiquement grâve au DHCP
+    GATEWAY     : 10.3.120.40 -> IDEM
+    DNS         : 8.8.8.8 -> IDEM
+    DHCP SERVER : 10.3.120.40
+    DHCP LEASE  : 86381, 86400/43200/75600
+    MAC         : 00:50:79:66:68:0c
+    LPORT       : 10090
+    RHOST:PORT  : 127.0.0.1:10091
+   MTU:        : 1500
+    ```
+
 
 * Mise en place des `VLANs` :
 
-  * `Vlan10` pour les `imprimantes` / `server(1-3)` / `Vlan20` pour les `pro (clients)` / `Vlan30` pour `l'admin` et `server(4-5)` :
+  * `Vlan10` pour les `imprimantes` / `server(1-2)` / `Vlan20` pour les `pro (clients)` / `Vlan30` pour `l'admin` et `server(3-5)` :
 
     ```
     IOU4#show vlan br
@@ -165,4 +183,5 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
   R1(config-subif)#no shut
   R1(config-subif)#exit
   ```
+
 
