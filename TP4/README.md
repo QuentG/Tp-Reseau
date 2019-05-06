@@ -143,7 +143,7 @@ VLANs | `VLAN 10` |  `VLAN 20` |  `VLAN 30`
     MAC         : 00:50:79:66:68:0c
     LPORT       : 10090
     RHOST:PORT  : 127.0.0.1:10091
-   MTU:        : 1500
+    MTU:        : 1500
     ```
 
 
