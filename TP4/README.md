@@ -2,7 +2,7 @@
 
 # Sommaire 
 
-* [1. Pourquoi avoir choisi ce sujet ?](#1-pourquoi-avoir-choisi-ce-sujet)
+* [1. Pourquoi avoir choisi ce sujet ?](#1-pourquoi-avoir-choisi-ce-sujet-?)
 * [2. Schema de la topologie](#2-schema-de-la-topologie)
 * [3. Maquette GNS3](#3-maquette-gns3)
 * [4. Plan d'adressage IP](#4-plan-dadressage-ip)
@@ -12,7 +12,7 @@
 
 ## 1. Pourquoi avoir choisi ce sujet ?
 
-
+Nous avons tous simplement choisis ce sujet pour mettre en pratique les notions que l'on a pu voir à travers les différents [TPs](https://github.com/QuentG/Tp-Reseau) sur une infra réelle 🔥.
 
 ## 2. Schema de la topologie
 
